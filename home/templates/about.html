@@ -1,0 +1,66 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>About us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="{%static 'home/js/main.js'%}"></script>
+</head>
+<body>
+    <div class="supercontainer">
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+
+
+
+        <div class="container text-center">
+            <div class="well well-lg">
+                <div class="well well-about" style="background-image:url({%static 'home/images/back.jpg'%})">
+                    <h1>About Us</h1>
+                </div>
+                <div class="content text-center">
+                    <p><b>Our Present</b></p>
+
+                    <p>The Desma Investments brand is well known throughout most parts of Nairobi, and has grown over the years into a large network of offices.
+
+                    The various franchise offices are co-ordinated by Desma agency with offices in Nairobi, Kenya. This centralises all the organizational functions such as marketing of the brand, liaison between licensees, organization of conferences and awards functions, communication with bond originators, training of agents and press advertising.
+
+                    Desma Investments is managed by a Board of Directors who all are licensees in their own right and who have an intimate knowledge of the real estate industry. The board meets monthly to discuss issues within the group of franchisees and also the broader property industry. The office is run by administrative staff, supervised by a general manager.
+
+                    Desma Investments views itself as the custodian of the Desma Investmnets brand, which has a well established, and proud name in the property industry – one which has the potential to become a leading brand.</p>
+                    
+                    <br><br>
+                    <p><b>Our Vision</b></p>
+                    <p>With our foundations firmly rooted in the property industry since 2015 our vision for the Desma Investments brand is to exceed the expectations of all with whom we interact in the conduct of our business, in order to build on the proud heritage of a successful brand.</p>
+
+                    <br><br>
+                    <p><b>Our Mission</b></p>
+
+                    <p>Our mission is to grow the Desma Investments brand into one of the leading brands in the property industry by continuously improving our market share in existing license areas and pursuing growth in unlicensed areas, both regionally and nationally.
+
+                    We shall achieve this by remaining true to our core ideology, core values and purpose, and clearly articulating our envisioned future on a frequent basis.</p>
+                    <br><br>
+                    <p><b>Core Values</b></p>
+
+                    <p>The relentless pursuit of excellence in the levels of service we provide to our clients. This means that at every level of employment in the business, staff are trained with the service objective in mind – so that the service ethic becomes the most pervasive element in the culture of the group.
+
+                    It also means that at every level of employment in the group there is a sense of belonging and pride in being associated with a company that is rare in its uncompromising commitment to service.</p>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+<footer class="container-fluid text-center" style="background-color: #79e8c0 !important;">
+    <p class="h6">&copy All rights Reversed.<a class="text-green ml-2" target="_blank">Wambui Kagiri</a></p>
+</footer>	
+</body>
+
+</html>

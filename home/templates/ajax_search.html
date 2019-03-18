@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+{%load static%}
+<html>
+<head>
+    
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- <script src="{%static 'MySite/styles/main.js'%}"></script> -->
+</head>
+<body>
+    <div class="supercontainer">
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+        <div class="jumbotron" style="background-image:url({%static 'home/images/back.jpg'%})">
+            <div class="container text-center">
+                
+                {% include "includes/search.html" %}
+            </div>
+        </div>
+        
+    
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    
+                </div>
+            </div>
+            <ul id="search-results">
+              
+                </ul>
+            
+            <div class="col-md-8">
+                <div class="row">
+                    <div >
+
+                    </div>
+                </div>
+                {% if stuff.count > 0 %}   
+                {% for z in stuff %}
+                <a href="/property/{{z.propertytitle}}/{{z.property_id}}/">
+                    <div class="well col-sm-12" style="color: black;object-fit: contain;">
+                        <div class="property-image">
+                            <img src="{{ z.property_picture.url }}" class="col-lg-4 col-md-5 col-sm-6">
+                            <div class="property_room_title"><b>{{ z.propertytitle }} at {{ z.location }} </b></div>
+                        </div>
+                        <div class="property-details col-lg-8 col-md-7 col-sm-6">
+                            <p>{{ z.description }}</p>
+                            <div class="row">
+
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Bedrooms</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_1.png'%}" alt=""></div>
+                                        <div class="room_num">{{ z.bedrooms }}</div>
+                                    </div>
+                                </div>
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Bathrooms</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_2.png'%}" alt=""></div>
+                                        <div class="room_num">{{ z.bathrooms }}</div>
+                                    </div>
+                                </div>
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Area</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_3.png'%}" alt=""></div>
+                                        <div class="room_num">{{ z.area }}Sq Ft</div>
+                                    </div>
+                                </div>
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Garage</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_5.png'%}" alt=""></div>
+                                        <div class="room_num">{{ z.garage }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+                {% else %}
+
+                <li> Your search did not match any results, Please refine your search</li>
+                {% endif %}
+
+                 <div class="pagination">
+                    <span class="step-links">
+                        {% if propertyss.has_previous %}
+                            <a href="?page={{ propertyss.previous_page_number }}">Previous</a>
+                        {% endif %}  
+                    
+                        <span class="current">
+                            Page {{ propertyss.number }} of {{ propertyss.paginator.num_pages }}
+                        </span>
+                        {% if propertyss.has_next %}  
+                            <a href="?page={{ propertyss.next_page_number }}">Next </a>
+                        {% endif %}
+                    </span>
+                </div>
+            </div>  
+
+               
+            
+            
+            <div class="col-md-4">
+                
+                    <div class="well">
+                        <div>
+                            <p>Subscribe and get property alerts</p>
+                            
+                            <form action="#">
+                                <div class="input-group">
+                                    <input class="btn btn-lg" name="email" id="email" type="email" placeholder="Your Email" required>
+                                    <br><br>
+                                    <button class="btn btn-info btn-lg" type="submit" style="background-color: #6bdeb4 !important;margin-left: 80px;">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <br><br>
+                    
+                
+            </div>
+         
+        </div>
+  
+    </div>
+    <footer class="container-fluid text-center" style="background-color: #79e8c0 !important;" >
+    
+        <p class="h6">&copy All rights Reversed.<a class="text-green ml-2" target="_blank">Wambui Kagiri</a></p>
+    </footer>
+</body>
+</html>

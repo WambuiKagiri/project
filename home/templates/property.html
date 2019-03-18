@@ -1,0 +1,257 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    {% for propety in propertys %}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{{ propety.property_title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'MySihomete/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+</head>
+<body>
+    <div class="supercontainer">
+        {% if user.is_authenticated %}
+        <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+            <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                <span class="caret"></span></button>
+                <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">SIGN OUT
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="#">My Properties</a></li>
+                </ul>
+            </div>
+        </div>
+            {% else %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                    <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                </ul>
+            </div>
+        {% endif %}
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+
+        <div class="jumbotron" style="background-image:url({%static 'home/images/back.jpg'%});">
+            <div class="container text-center">
+                
+                {% include "includes/search.html" %}
+            </div>
+        </div>
+        {% for message in messages %} 
+        <div class="alert alert-success" role="alert">
+                {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+      {% endfor %} 
+        <div class="container">
+            <h3>{{ propety.propertytitle }} at {{ propety.location }}  </h3><br>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="well well-lg">
+                        <!--Pics -->
+                        <div class="propertyp">
+                             
+                            <div class="propertypic">                                
+                                <img src ="{{ propety.property_picture.url }}" alt=""> 
+                            </div>
+                            <div class="row">
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Bedrooms</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_1.png'%}" alt=""></div>
+                                        <div class="room_num">{{ propety.bedrooms }}</div>
+                                    </div>
+                                </div>
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Bathrooms</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_2.png'%}" alt=""></div>
+                                        <div class="room_num">{{ propety.bathrooms }}</div>
+                                    </div>
+                                </div>
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Area</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_3.png'%}" alt=""></div>
+                                        <div class="room_num">{{ propety.area }}Sq Ft</div>
+                                    </div>
+                                </div>
+                                <div class="property_room col-md-3">
+                                    <div class="property_room_title">Garage</div>
+                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                        <div class="room_icon"><img src="{%static 'MySite/images/room_5.png'%}" alt=""></div>
+                                        <div class="room_num">{{ propety.garage }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <!-- Description-->
+                                    
+                            <div class="col">
+                                <div class="deets">
+                                    <div>
+                                        <br><Br>
+                                        <p><b>
+                                            Asking Price:  {{ propety.price }}
+                                        </b></p>
+                                        <div class="property_title"><b>Details of this property</b></div>
+                                        <div class="property_text property_text_1">
+                                            <p>{{ propety.description }}</p>
+                                            <br><br>
+                                            <p><b>Additional details:<b></p>
+                                                
+                                        </div>     
+                                    </div>
+                                </div>
+                            </div>  
+                    </div>
+                </div>     
+
+                <div class="col-md-4">
+                    <div class="well">
+                        <p>Contact agent about this property</p>
+                        <p>Your details..</p>
+                        <form class="form-horizontal" role="form" method="post" action="/property/{{propety.propertytitle}}/{{propety.property_id}}/" id="customer_form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ request.user.first_name}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label">Email</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="your email" value="{{ request.user.email}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" class="col-sm-2 control-label">Message</label>
+                                <div class="col-sm-10">
+                                    <textarea class="form-control" rows="4" name="message" >Hello,I am interested in the {{ propety.propertytitle }} at {{ propety.location }} . Please get in touch with me to discuss the details.</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" class="form-control" id="property_id" name="property_id"  value="{{ propety.property_id }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-2">
+                                    <input id="submit" name="submit" type="submit" value="Send Message" class="btn btn-primary">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-2">
+                                    <!-- Will be used to display an alert to the user-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <p>Or you can, </p>
+                    <h5>Book a viewing date and time below and our agent will contact you shortly</h5>
+                    <div class="well">
+                        <p>Book a viewing for this property</p>
+                        <form class="form-horizontal" role="form" method="post" action="/propertys/{{propety.propertytitle}}/{{propety.property_id}}/" id="booking_form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2 control-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ request.user.first_name}}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="mobile number" class="col-sm-2 control-label">Mobile Number</label>
+                                <div class="col-sm-10">
+                                    <input type="number" class="form-control" id="mobile_no" name="mobile_no" placeholder="" value="">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" class="col-sm-2 control-label"> Date</label>
+                                <div class='col-sm-10'>
+                                    <input type='date' class="form-control" id="date" name="date" min="2019-03-14">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label for="message" class="col-sm-2 control-label"> Time </label>
+                                    <div class='col-sm-10'>
+                                        <select class="form-control search-slt" id="exampleFormControlSelect1" name="time">
+                                            <option disabled>Time</option>
+                                            <option>11:00 A.M</option>
+                                            <option>1:00 P.M</option>
+                                            <option>3:00 P.M</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <input type="hidden" class="form-control" id="property_id" name="property_id"  value="{{ propety.property_id }}">
+                                        <input type="hidden" class="form-control" id="propertytitle" name="propertytitle"  value="{{ propety.propertytitle}}">
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-2">
+                                    <button type="submit">Submit</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-10 col-sm-offset-2">
+                                    <!-- Will be used to display an alert to the user-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                          
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="property_title">Take a virtual tour of this property</div>
+                    <iframe style="max-width: 100%;" width="940" height="480" frameborder="0" allowfullscreen src="https://players.cupix.com/embed.html?key=TOuDocSW"></iframe>
+                       
+                </div>
+                <div class="col-md-4">
+                    <div class="contact_map" onload="initialize()">
+                    <!-- Google Map -->
+                        <div class="map">
+                            <div id="google_map" class="google_map">
+                                <div class="map_container">
+                                    <div id="map"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+    
+          
+    </div>
+
+<footer class="container-fluid text-center" style="background-color: #79e8c0 !important;">
+    
+    <p class="h6">&copy All rights Reserved.<a class="text-green ml-2" target="_blank">Wambui Kagiri</a></p>
+</footer>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="{%static 'home/js/main.js'%}"></script>
+</body>
+</html>

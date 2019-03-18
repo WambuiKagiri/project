@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/agent.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{%static 'MySite/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body class="home">
+    <div class="container-fluid display-table">
+        {% include 'includes/agenthead.html' %}
+    </div>
+
+<style>
+        table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 80%;
+          margin-left: 18%;
+          margin-top: -38%;
+          position: absolute;
+        }
+        
+        td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+        }
+        
+        tr:nth-child(even) {
+          background-color: #dddddd;
+        }
+</style>
+
+
+<!-- Listings -->
+<div>
+    <table>
+        <caption>Booked Viewings</caption><button style="margin-left: 88%;">Update</button>
+        <tr>
+            <th>Property Title</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Mobile Number</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for booked_viewings in books %}
+        <tr>
+            <td> {{ booked_viewings.propertytitle }}</td>
+            <td>{{ booked_viewings.date }}</td>
+            <td>{{ booked_viewings.name }}</td>
+            <td>{{ booked_viewings.mobile_no}}</td>   
+            <td style="color: green;">Pending</td>
+            <td><input type="checkbox" name="name2" />&nbsp;</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- <table class="2">
+        <tr>
+            <th>Property Title</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Mobile Number</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+        {% for booked_viewings in books %}
+        <tr>
+            <td> {{ booked_viewings.propertytitle }}</td>
+            <td>{{ booked_viewings.date }}</td>
+            <td>{{ booked_viewings.name }}</td>
+            <td>{{ booked_viewings.mobile_no}}</td>   
+            <td></td>
+            <td><input type="checkbox" name="name2" />&nbsp;</td>
+        </tr>
+        {% endfor %}
+    </table> -->
+</div>

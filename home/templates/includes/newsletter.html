@@ -1,0 +1,9 @@
+{% load staticfiles %}
+
+<form action="subscribe" style="margin-left: 440px;margin-top: -70px;" method="post" id="subscribe_form">
+	{% csrf_token %}
+    <div class="input-group">
+        <input class="btn btn-lg" name="Email" id="email" type="email" placeholder="Your Email"style="width: 400px;height: 60px;margin-top: 25px;">
+        <button class="btn btn-info btn-lg" type="submit" style="margin-top: 25px;width: 150px;height: 60px;background-color: #6bdeb4 !important;">Submit</button>
+    </div>
+</form>

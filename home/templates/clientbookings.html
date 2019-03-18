@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <style>
+        .upper-links {
+    display: inline-block;
+    padding: 0 11px;
+    line-height: 23px;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0;
+    color: inherit;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    
+}
+    </style>
+    <div class="supercontainer">
+            {% if user.is_authenticated %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                    <span class="caret"></span></button>
+                    <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                    <a href="{% url 'logout' %}"><button type="button"  style="background-color: #0e1a35;">SIGN OUT
+                    <span class="caret"></span></button></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/client/profile/">Profile</a></li>
+                        <li><a href="#">Notifications</a></li>
+                        <li><a href="/myproperties/">My Properties</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% else %}
+                <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                    <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                        <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                        <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+
+
+        <!--Top bars-->
+        <section id="tabs" class="project-tab">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <nav>
+                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Booked Viewings</a><a class="upper-links" style="border-right:solid 1px ;"></a> 
+                                <!-- <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Transaction History</a><a class="upper-links" style="border-right:solid 1px ;"></a> 
+                                <a class="nav-item nav-link"  href="/ListProperty/" role="tab" aria-controls="nav-contact" aria-selected="false">Add property</a> -->
+                            </div>
+                        </nav>
+                        <br>
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" style="    height: 8px;">
+                                <table class="table" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Booking ID</th>
+                                            <th>Property</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Mobile no</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                            {% for b in props %}
+                                        <tr>
+                                            <td><a href="#">{{ b.booking_id }}</a></td>
+                                            <td>{{ b.propertytitle }}</td>
+                                            <td>{{ b.date }}</td>
+                                            <td>{{ b.time }}</td>
+                                            <td> {{ b.mobile_no}}</td>
+                                            <td></td>
+                                        </tr>
+                                            {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                <table class="table" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Transaction Code</th>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <style>
+            .project-tab {
+    padding: 10%;
+    margin-top: -8%;
+}
+.project-tab #tabs{
+    background: #007b5e;
+    color: #eee;
+}
+.project-tab #tabs h6.section-title{
+    color: #eee;
+}
+.project-tab #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #0062cc;
+    background-color: transparent;
+    border-color: transparent transparent #f3f3f3;
+    border-bottom: 3px solid !important;
+    font-size: 16px;
+    font-weight: bold;
+}
+.project-tab .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: #0062cc;
+    font-size: 16px;
+    font-weight: 600;
+}
+.project-tab .nav-link:hover {
+    border: none;
+}
+.project-tab thead{
+    background: #f3f3f3;
+    color: #333;
+}
+.project-tab a{
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+}
+        </style>
+    </div>
+</body>
+</html>

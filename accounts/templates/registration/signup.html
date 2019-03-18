@@ -1,0 +1,47 @@
+{% load static %}
+{% block content %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+			{% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div>
+            	<h4 class="card-title mt-3 text-center">Create Account</h4>
+    	<p class="text-center">Get started with your free account</p>
+        </div>
+    <div class="card">
+		<form method="post" action="{% url 'register' %}" role="form"> 
+			{% csrf_token %}
+			{{form.as_p}}
+			<input class="btn btn-success btn-sm btn-block" type="Submit" value="submit"/>
+        </form>
+    </div>
+    <style>
+    body {
+    background: url('https://cdn.pixabay.com/photo/2017/02/24/12/22/kitchen-2094707_960_720.jpg') fixed;
+    background-size: cover;
+    }
+
+    *[role="form"] {
+    max-width: 530px;
+    padding: 15px;
+    margin: 0 auto;
+    border-radius: 0.3em;
+    background-color: #f2f2f2;
+    }
+    </style>
+	</div>
+</div>
+</div>  
+{% endblock %}

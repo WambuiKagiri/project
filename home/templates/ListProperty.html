@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+{%load static%}
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{%static 'home/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- <script src="{%static 'MySite/styles/main.js'%}"></script> -->
+</head>
+<body>
+   
+    <div class="supercontainer" >
+        
+        {% if user.is_authenticated %}
+        
+        <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+            <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                <span class="caret"></span></button>
+                <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">SIGN OUT
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="/client/profile/">Profile</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="/myproperties/">My Properties</a></li>
+                </ul>
+            </div>
+        </div>
+        {% else %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                    <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                </ul>
+            </div>
+        {% endif %}
+        <!-- <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <li class="upper-links">
+                        <li class="menu-has-children" style="color: #ffffff;"><a href="">ACCOUNT</a>
+                            <ul style="display: none;">
+                                <li><a>SIGN OUT</a></li>
+                            </ul>
+                        </li>
+                </ul>
+            </div> -->
+
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+        <div class="container">
+            <style>
+                hr {border-top: 1px solid #000; width:50%;}
+            </style>
+            <div class="col">
+                    <h2 class="text-center">List Your Property</h2>
+                    <hr>
+                    <p>At Desma Properties, we are determined to exceed our clients' expectations - on every level, always. And, through our nearly 50 years' of knowledge and experience, superior systems, technology and of course, our total commitment, we're equipped to do so. 
+
+                    We make it our business to continually evolve and identify new opportunities, which is why we offer a distinctive range of property services that spans residential and commercial sales and marketing , property management, corporate relocations, rentals and home loans.</p>
+                    <br>
+                    <br>
+                    <p>You can request our agent to list your property for you<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Here
+                          </button></p>
+
+                    
+                          {% for message in messages %} 
+                          <div class="alert alert-success" role="alert">
+                                  {{ message }}
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          
+                        {% endfor %} 
+                    <style>
+                       
+    .required:after { content:" *"; }
+</style>
+                    
+                    <div class="stepwizard">
+                        <div class="stepwizard-row setup-panel">
+                            <div class="stepwizard-step">
+                                <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+                                <p>Owner Details</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+                                <p>Property Details</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                <p>Media</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                    <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                                    <p>Finish</p>
+                            </div>
+                        </div>
+                    </div>
+                    <form role="form" method="post" action="/ListProperty/" id="list_form">
+                        {% csrf_token %}
+                        <div class="row setup-content" id="step-1">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3> Owner Details </h3>
+                                    <h5>Please provide your details below</h5>
+                                    <div class="form-group">
+                                        <label class="control-label">First Name</label>
+                                        <input  maxlength="100" type="text" required="required" class="form-control" name="lister" placeholder="Enter First Name" value="{{ request.user.first_name}}" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Last Name</label>
+                                        <input maxlength="100" type="text" required="required" class="form-control" placeholder="Enter Last Name" value="{{ request.user.last_name}}" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Mobile Number</label>
+                                        <input maxlength="100" type="tel" required="required" class="form-control" placeholder="Mobile Number" value="" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label">Email</label>
+                                        <input maxlength="100" type="email" required="required" class="form-control" placeholder="email" value="{{ request.user.email}}"/>
+                                    </div>
+                                    <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row setup-content" id="step-2">
+                            <div class="row">
+                                    <h3>Property  Details</h3>
+                                    <h5>Provide details on the property to be listed in this section</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="control-label">Property Title</label>
+                                                <input maxlength="200" type="text" required="required" name="propertytitle" class="form-control" placeholder="Property Title" />
+                                            </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                            <label class="control-label">Property Location</label>
+                                            <input maxlength="200" type="text" required="required" name="location" class="form-control" placeholder=" Location" />
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Asking Price</label>
+                                        <input maxlength="200" type="number" required="required" name="price" class="form-control" placeholder="Price" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">For Sale or Rent</label>
+                                        <select class="form-control search-slt" id="exampleFormControlSelect1 " name="rentbuy" id="propertytype" value="{{request.GET.q}}">
+                                            <option disabled>Rent/Sale</option>
+                                            <option>Rent</option>
+                                            <option>Sale</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="control-label">Property Type</label>
+                                        <select class="form-control search-slt" name="propertytype" id="propertytype" value="">
+                                            <option disabled>Residential/Commercial</option>
+                                            <option>Residential</option>
+                                            <option >Commercial</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                        <div class="form-group col-md-4">
+                                                <label class="control-label"> Extras </label>
+                                                <input maxlength="200" type="text" required="required" name="extras" class="form-control" placeholder=" Extras" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                                <label class="control-label"> Description</label>
+                                                <input maxlength="200" type="text" required="required" name="description" class="form-control" placeholder=" Description" />
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                                <label class="control-label"> Bedrooms</label>
+                                                <input maxlength="200" type="number" required="required" name="bedrooms" class="form-control" placeholder=" Bedrooms" />
+                                        </div>
+                                </div>
+
+
+                                
+
+
+
+                                <div class="row">
+                                    <div class="form-group col-md-4">
+                                            <label class="control-label"> Bathrooms</label>
+                                            <input maxlength="200" type="number" required="required" name="bathrooms" class="form-control" placeholder=" Bathrooms" />
+                                    </div>
+                    
+                                    <div class="form-group col-md-4">
+                                            <label class="control-label"> Patio </label>
+                                            <input maxlength="200" type="number" required="required" name="patio" class="form-control" placeholder=" patio" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                            <label class="control-label"> Area</label>
+                                            <input maxlength="200" type="number" required="required" name="area" class="form-control" placeholder=" area" />
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                            <label class="control-label"> Garage </label>
+                                            <input maxlength="200" type="number" required="required" name="garage" class="form-control" placeholder=" garage" />
+                                    </div>
+                                </div>
+                                
+                    
+                                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                            </div>
+                        </div>
+                        <div class="row setup-content" id="step-3"> 
+                                <h5>
+                                    Add pictures of the property
+                                </h5>
+                                <div class="col-md-3">
+                                    <input type="file" placeholder="Main Picture">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="file" placeholder="Bedroom">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="file" placeholder="Living room">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="file" placeholder="Kitchen">
+                                </div>
+                                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                            </div>
+                        <div class="row setup-content" id="step-4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h3> Finish </h3>
+                                    <button class="btn btn-success btn-lg pull-right" type="submit">Finish!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                    
+                    <style>
+                        body{ 
+                        margin-top:40px; 
+                    }
+                    
+                    .stepwizard-step p {
+                        margin-top: 10px;
+                    }
+                    
+                    .stepwizard-row {
+                        display: table-row;
+                    }
+                    
+                    .stepwizard {
+                        display: table;
+                        width: 100%;
+                        position: relative;
+                    }
+                    
+                    .stepwizard-step button[disabled] {
+                        opacity: 1 !important;
+                        filter: alpha(opacity=100) !important;
+                    }
+                    
+                    .stepwizard-row:before {
+                        top: 14px;
+                        bottom: 0;
+                        position: absolute;
+                        content: " ";
+                        width: 100%;
+                        height: 1px;
+                        background-color: #ccc;
+                        z-order: 0;
+                    
+                    }
+                    
+                    .stepwizard-step {
+                        display: table-cell;
+                        text-align: center;
+                        position: relative;
+                    }
+                    
+                    .btn-circle {
+                      width: 30px;
+                      height: 30px;
+                      text-align: center;
+                      padding: 6px 0;
+                      font-size: 12px;
+                      line-height: 1.428571429;
+                      border-radius: 15px;
+                    }
+                    </style>
+                    
+                    <script>
+                        $(document).ready(function () {
+                    
+                    var navListItems = $('div.setup-panel div a'),
+                            allWells = $('.setup-content'),
+                            allNextBtn = $('.nextBtn');
+                    
+                    allWells.hide();
+                    
+                    navListItems.click(function (e) {
+                        e.preventDefault();
+                        var $target = $($(this).attr('href')),
+                                $item = $(this);
+                    
+                        if (!$item.hasClass('disabled')) {
+                            navListItems.removeClass('btn-primary').addClass('btn-default');
+                            $item.addClass('btn-primary');
+                            allWells.hide();
+                            $target.show();
+                            $target.find('input:eq(0)').focus();
+                        }
+                    });
+                    
+                    allNextBtn.click(function(){
+                        var curStep = $(this).closest(".setup-content"),
+                            curStepBtn = curStep.attr("id"),
+                            nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+                            curInputs = curStep.find("input[type='text'],input[type='url']"),
+                            isValid = true;
+                    
+                        $(".form-group").removeClass("has-error");
+                        for(var i=0; i<curInputs.length; i++){
+                            if (!curInputs[i].validity.valid){
+                                isValid = false;
+                                $(curInputs[i]).closest(".form-group").addClass("has-error");
+                            }
+                        }
+                    
+                        if (isValid)
+                            nextStepWizard.removeAttr('disabled').trigger('click');
+                    });
+                    
+                    $('div.setup-panel div a.btn-primary').trigger('click');
+                    });
+                    </script>
+                
+            </div>
+
+                </div>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Listing request</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action="/listrequest/" method="POST" id="listrequestform">
+                                {% csrf_token %}
+                            
+                            <div class="modal-body">
+                                    <input type="text" placeholder="Your Name" name="name" value="{{ request.user.username}}">
+                                    <input type="tel" placeholder="Tel no" name="mobile_no">
+                                    <input type="email" placeholder="Email" name="email">
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Send</button>
+                            </div>
+                        </form>
+                          </div>
+                        </div>
+                      </div>
+         
+</div>
+    </div>
+   
+<footer class="container-fluid text-center" style="background-color: #79e8c0 !important;">
+    <p class="h6">&copy All rights Reserved.<br><br> Created and developed by: Wambui Kagiri</p>
+</footer>
+</body>
+</html>
+

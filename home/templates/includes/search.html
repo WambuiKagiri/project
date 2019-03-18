@@ -1,0 +1,80 @@
+
+{% load staticfiles%}
+<h3>Search for properties near you</h3>      
+<div class="search container-fluid">
+    <form action="{% url 'search' %}" method="POST" id="searchform">
+        {% csrf_token %}
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2">
+                    
+                    <select class="form-control search-slt" id="exampleFormControlSelect1 " name="propertytype" id="propertytype" value="{{request.GET.q}}">
+                        <option value="">Residential/Commercial</option>
+                        <option>Residential</option>
+                        <option >Commercial</option>
+                    </select>
+                </div>
+
+                <div class="col-md-10">
+                    <input class="form-control"  name="location" id="location" placeholder="Location">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-2">
+                    <select class="form-control search-slt" id="exampleFormControlSelect1" name="rentbuy" id="rentbuy"  value="{{request.GET.q}}">
+                        <option value="">Rent/Buy</option>
+                        <option >Rent</option>
+                        <option >Buy</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <input class="form-control" placeholder="Min price" name="minprice">
+                </div>
+                <div class="col-md-2">
+                    <input class="form-control" placeholder="Max price" name="maxprice">
+                </div>
+                <div class="col-md-2">
+                    <select class="form-control search-slt" id="exampleFormControlSelect1" name="bedrooms">
+                        <option value="">Bedrooms</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                    </select>
+                </div> 
+                 
+                <div class="col-md-2">
+                    <select class="form-control search-slt" id="exampleFormControlSelect1" name="bathrooms">
+                        <option value="">Bathrooms</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary wrn-btn" value="search">Search</button>
+                </div>
+            </div>
+
+        </div>
+     
+    </form>
+</div>
+
+
+
+
+
+<!-- {% block content %}
+<form method="get">
+{{ filter.form.as_p }}
+<button type="submit">Search</button>
+</form>
+<ul>
+{% for propety in filter.qs %}
+<li>{{ propety.property_title }} - {{ propety.location }}</li>
+{% endfor %}
+</ul>
+{% endblock %} -->

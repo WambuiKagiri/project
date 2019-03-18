@@ -1,0 +1,110 @@
+
+{% load static%}
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>Desma Properties</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+   <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/agent.css'%}" />
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+   <link rel="stylesheet" type="text/css" href="{%static 'home/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+   <div class="container-fluid display-table">
+       {% include 'includes/agenthead.html' %}
+   </div>
+
+          
+   <style>
+       table {
+         font-family: arial, sans-serif;
+         border-collapse: collapse;
+         width: 70% !important;
+         margin-left: 18% !important;
+         margin-top: -43% !important;
+         position: absolute;
+       }
+               
+       td, th {
+         border: 1px solid #dddddd;
+         text-align: left;
+         padding: 8px;
+       }
+       
+       tr:nth-child(even) {
+         background-color: #dddddd;
+       }
+       </style>
+
+       <table class="table table-striped">
+           <caption>Property requests</caption>
+           <form method="post" action="/updatemessage/">{% csrf_token %}
+                   <button style="margin-left: 83%;margin-top: -20%;" type="submit">Update</button>
+           </form>
+           
+               <thead>
+                 <tr>
+                   <th>#</th>
+                   <th>Name</th>
+                   <th>Email</th>
+                   <th>Message</th>
+                   <th>Property ID</th>
+                   <th style="width: 36px;">Status</th>
+                   <th> </th>
+                 </tr>
+               </thead>
+               <tbody>
+                       {% for contact_on_property in requests %}
+                       <a href="/">
+                  <tr>
+                       <td>{{ contact_on_property.message_id }}</td>
+                       <td>{{ contact_on_property.name }}</td>
+                       <td>{{ contact_on_property.email }}</td>
+                       <td>{{ contact_on_property.message }}</td>
+                       <td>{{ contact_on_property.property_id }}</td>  
+                       <td style="color: green;">{{ contact_on_property.status }}</td>
+                       <td><input type="checkbox" name="name2" />&nbsp;</td>
+                 </tr>
+               </a>
+                 {% endfor %}
+               </tbody>
+             </table>
+
+          
+       </div>
+         <!-- Modal -->
+         <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+               <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                   <h3 id="myModalLabel">Delete Confirmation</h3>
+               </div>
+               <div class="modal-body">
+                   <p class="error-text">Are you sure you want to delete this item?</p>
+               </div>
+               <div class="modal-footer">
+                   <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                   <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+               </div>
+           </div>
+       
+       <div class="pagination" style="margin-left: 60%;">
+           <span class="step-links">
+               {% if requests.has_previous %}
+                   <a href="?page={{ requests.previous_page_number }}">Previous</a>
+               {% endif %}  
+           
+               <span class="current">
+                   Showing {{ requests.number }} of {{ requests.paginator.num_pages }}
+               </span>
+               {% if requests.has_next %}  
+                   <a href="?page={{ requests.next_page_number }}">Next </a>
+               {% endif %}
+           </span>
+       </div>
+</body>
+</html>

@@ -1,0 +1,240 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'MySite/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <style>
+        .upper-links {
+    display: inline-block;
+    padding: 0 11px;
+    line-height: 23px;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0;
+    color: inherit;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+    </style>
+    <div class="supercontainer">
+            {% if user.is_authenticated %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                    <span class="caret"></span></button>
+                    <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                    <a href="{% url 'logout' %}"><button type="button"  style="background-color: #0e1a35;">SIGN OUT
+                    <span class="caret"></span></button></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/client/profile/">Profile</a></li>
+                        <li><a href="#">Notifications</a></li>
+                        <li><a href="/myproperties/">My Properties</a></li>
+                        <li><a href="/client-bookings/">My Viewings</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% else %}
+                <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                    <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                        <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                        <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+
+          
+
+          
+
+
+
+
+
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+        
+        <!-- Home -->
+
+
+        <style>
+            .caption-animate .item.active .carousel-caption {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.caption-animate  .item.active .carousel-caption.infinite {
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+.caption-animate  .item.active .carousel-caption.hinge {
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+}
+
+.caption-animate .item.active .carousel-caption.flipOutX,
+.caption-animate .item.active .carousel-caption.flipOutY,
+.caption-animate .item.active .carousel-caption.bounceIn,
+.caption-animate .item.active .carousel-caption.bounceOut {
+  -webkit-animation-duration: .75s;
+  animation-duration: .75s;
+}
+.caption-animate .item .carousel-caption.fadeIn,
+.caption-animate .item .carousel-caption.fadeInDown,
+.caption-animate .item .carousel-caption.fadeInDownBig,
+.caption-animate .item .carousel-caption.fadeInLeft,
+.caption-animate .item .carousel-caption.fadeInLeftBig,
+.caption-animate .item .carousel-caption.fadeInRight,
+.caption-animate .item .carousel-caption.fadeInRightBig,
+.caption-animate .item .carousel-caption.fadeInUp,
+.caption-animate .item .carousel-caption.fadeInUpBig{
+  opacity:0;
+}
+        </style>
+
+		<div id="carousel-example-generic" class="carousel slide caption-animate" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                </ol>
+    
+                <!-- Wrapper for slides -->
+                
+                <div class="carousel-inner" style="height: 520px;">    
+                    <div class="item active">
+                           
+                        <img src="{%static 'MySite/images/sitting7.jpg'%}" alt="...">
+                        <div class="carousel-caption fadeInDown">
+                            <h2>Our skilled professionals </h2>
+                        </div>
+                       
+                    </div>
+    
+                    <div class="item">
+                        <img src="{%static 'MySite/images/sitting5.jpg'%}" alt="...">
+                        <div class="carousel-caption fadeInRight">
+                            <h2>are able to offer superior cutting edge service,</h2>
+                        </div>
+                    </div>
+    
+                    <div class="item">
+                        <img src="{%static 'MySite/images/back.jpg'%}" alt="...">
+                        <div class="carousel-caption fadeInLeft ">
+                            <h2> maintain constant communication,</h2>
+                        </div>
+                    </div>
+                    <div class="item">
+                            <img src="{%static 'MySite/images/sittin_g1.jpg'%}" alt="...">
+                            <div class="carousel-caption bounce">
+                                <h2>caption</h2>
+                            </div>
+                        </div>
+                </div>
+
+                <!-- Controls -->
+                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+                
+        </div>   
+        <div class="container text-center">
+            {% include "includes/search.html" %}
+            <div class="col-md-8">
+                <div class="row">
+                    <div >
+
+                    </div>
+                </div>
+                    
+            </div>  
+        
+        </div>       
+            <div class="container bg-3 text-center">
+                   
+                <h3>Properties for Rent</h3><br>
+                <a href="/properties/" class="textlink">View all properties</a>
+                <div class="row">
+                {% for propety in propertys %}  
+                  <div class="col-sm-3 shadow" style="border: solid #fff6f6 2px;height: 340px;box-shadow: 5px 3px 5px #d8d8d8;margin-top: 13px;width: 280px;margin-right: 4px;margin-left: 4px;">
+                        <a href="/property/{{propety.propertytitle}}/{{propety.property_id}}/">
+                        <div class="pics">   
+                        <img src="{{ propety.property_picture.url }}" class="img-responsive" style="box-shadow: 5px 3px 5px #ccc;" alt="Image">
+                        <p>{{ propety.location }}</p>
+                        <p>{{ propety.propertytitle }}</p>
+                        <p>{{ propety.price }}</p>
+                        </div>
+                        </a> 
+                  </div>
+                  {% endfor %}
+                </div>
+                
+        </div><br>
+                <div class="container bg-3 text-center">
+                   
+                <h3>Properties for Sale</h3><br>
+                <a href="/properties/" class="textlink">View all properties</a>
+                <div class="row">
+                {% for propety in props %}  
+                  <div class="col-sm-3 shadow" style="border: solid #fff6f6 2px;height: 340px;box-shadow: 5px 3px 5px #d8d8d8;margin-top: 13px;width: 280px;margin-right: 4px;margin-left: 4px;">
+                        <a href="/property/{{propety.propertytitle}}/{{propety.property_id}}/">
+                        <div class="pics">   
+                        <img src="{{ propety.property_picture.url }}" class="img-responsive" style="box-shadow: 5px 3px 5px #ccc;" alt="Image">
+                        <p>{{ propety.location }}</p>
+                        <p>{{ propety.propertytitle }}</p>
+                        <p>{{ propety.price }}</p>
+                        </div>
+                        </a> 
+                  </div>
+                {% endfor %}
+                </div>
+                
+        </div><br>
+        <ul id="search-results">
+              
+        </ul>          
+        <!-- subscribe -->
+                <div class="container-fluid">
+                    <div class="row" style="margin-top: 19px;">
+                        <div class="col ">
+                            <div class="well subscribe" style="background-image:url({%static 'MySite/images/back.jpg'%})"><h3>Subscribe and get property alerts!</h3>
+                                {% include "includes/newsletter.html"%}
+                            </div>
+                                 {% if messages %}
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+       
+                
+    </div>
+
+</body>
+
+</html>
