@@ -31,6 +31,7 @@ from home.views import listingrequest
 from home.views import dashboard,home,subscribe,message,listpropertyy,propertypage, booking
 from home.views import agentprofile,clientprofile,clientproperties
 from home import views
+from payments.views import process_payment, payment_done, payment_canceled
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -42,7 +43,7 @@ urlpatterns = [
     # url(r'^process-payment/',process_payment,name='payment'),
     # url(r'^payment-done/', payment_done, name='payment_done'),
     # url(r'^payment-canceled/', payment_canceled, name='payment_canceled'),
-    url(r'^accounts/login/',login,name='login'),
+    url(r'^accounts/login/$',login,name='login'),
     url(r'^agent/',dashboard ,name='dashboard'),
     url(r'^about/$', views.AboutPageView.as_view(),name='about'),
 	url(r'^contact/$', views.ContactPageView.as_view(),name='contact'),
@@ -77,6 +78,9 @@ urlpatterns = [
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',auth_views.PasswordResetConfirmView, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.PasswordResetCompleteView, name='password_reset_complete'),    
     url(r'^property_contacts/',propertycontact,name='propertycontact'),
+    url(r'^process-payment/',process_payment,name='payment'),
+    url(r'^payment-done/', payment_done, name='payment_done'),
+    url(r'^payment-canceled/', payment_canceled, name='payment_canceled'),
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

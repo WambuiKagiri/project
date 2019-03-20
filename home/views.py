@@ -18,9 +18,13 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import user_passes_test
 from ajax_search.forms import SearchForm
 from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import EmailMessage
 from django.conf import settings
+from django.template.loader import render_to_string
 import json
 import re
+from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.edit import FormView
 from django.db.models import Q
 from django.contrib.auth import (
@@ -43,7 +47,7 @@ from .models import subscriber
 from .models import listings_waiting_list
 from .models import contact_on_property
 from .models import booked_viewings
-from .models import propety
+from .models import propety,User
 
 
 
@@ -100,11 +104,11 @@ def search(request):
 		loc = request.POST['location']
 		beds = request.POST['bedrooms']
 		baths = request.POST['bathrooms']
-		minprice = request.POST['minprice']
-		maxprice = request.POST['maxprice']
+		minprice = int(request.POST['minprice'])
+		maxprice = int(request.POST['maxprice'])
 		
-		print(loc)
-		stuff = propety.objects.filter(Q(propertytype__icontains=tyype) & Q(rentbuy__icontains=re)  & Q(location__icontains=loc) & Q(bedrooms__icontains=beds) & Q(bathrooms__icontains=baths)) & Q(price_range=(minprice,maxprice))
+		print(minprice,maxprice)
+		stuff = propety.objects.filter(Q(propertytype__icontains=tyype) & Q(rentbuy__icontains=re)  & Q(location__icontains=loc) & Q(bedrooms__icontains=beds) & Q(bathrooms__icontains=baths)) & Q(price__icontains__range=(maxprice,minprice))
 		return render(request, 'ajax_search.html',{'stuff':stuff})	
 	else:
 		return render(request, 'index.html')
@@ -118,17 +122,39 @@ def propertypage(request, propertytitle,pk, **kwargs):
 	if request.method == 'POST':
 		form = customer_form(request.POST)
 		if form.is_valid():
-			form.save()
+			# form.save()
+			p = form.cleaned_data.get('location')
+			print (p)
+			try:
+				s = User.objects.filter(location__iexact=p).first()
+				
+				print(s.email)
+			except ObjectDoesNotExist:
+				pass
+				#s = User.objects.filter(location__exact='').only('email').first()
+			
+			current_site = get_current_site(request)
+			properrty = form.cleaned_data.get('propertytitle')
+			message = render_to_string('propertymail.html',{
+			'user':user,
+			'domain':current_site.domain,
+			'properrty':properrty,
+			})
+			mail_subject = 'Property Details Request'
+			to_email = s.email
+			email = EmailMessage(mail_subject,message,to=[to_email])
+			email.send()
+			print("haifanyi")
 			messages.success(request, "Your message has been sent")
 			return render(request, 'property.html', {'form':form,'propertys':propertys})
 
 		else:
-			print("has not worked")
+			
 			propertys = propety.objects.all().filter(propertytitle= propertytitle)
 			return render(request, 'property.html',{'propertys':propertys})
 
 	else:
-		print("haijafikia method")
+		
 		propertys = propety.objects.all().filter(propertytitle= propertytitle)
 		return render(request, 'property.html',{'propertys':propertys})
 	
@@ -143,7 +169,18 @@ def booking(request,propertytitle, **kwargs):
 		if f.is_valid():
 			booking = f.save()
 			booking.save()
-			messages.success(request, "Your message has been sent")
+			current_site = get_current_site(request)
+			properrty = f.cleaned_data.get('propertytitle')
+			message = render_to_string('bookingmail.html',{
+			'user':user,
+			'domain':current_site.domain,
+			'properrty':properrty,
+			})
+			mail_subject = 'Property viewing booking'
+			to_email = f.cleaned_data.get('email')
+			email = EmailMessage(mail_subject,message,to=[to_email])
+			email.send()
+			messages.success(request, "Your booking has been made. Please check your email.")
 			return render(request, 'property.html', {'f':f,'propertys':propertys})
 			
 		else:
@@ -173,8 +210,8 @@ class PropertiesPageView(TemplateView):
 
 @csrf_protect
 @ensure_csrf_cookie
-@login_required(login_url='/accounts/login/')
-@user_passes_test(lambda u: u.groups.filter(name='Agents').exists())
+# @login_required(login_url='/accounts/login/')
+# @user_passes_test(lambda u: u.groups.filter(name='Agents').exists())
 def dashboard(request):
 	propt = propety.objects.filter(agent = request.user)
 	paginator = Paginator(propt,4)
@@ -305,8 +342,8 @@ def propertycontact(request):
 
 @csrf_protect
 @ensure_csrf_cookie
-@login_required(login_url='/accounts/login/')
-@user_passes_test(lambda u: u.groups.filter(name='Client').exists())
+# @login_required(login_url='/accounts/login/')
+# @user_passes_test(lambda u: u.groups.filter(name='Client').exists())
 def listpropertyy(request,**kwargs):
 	form = list_form(request.POST)
 	if request.method == 'POST':	

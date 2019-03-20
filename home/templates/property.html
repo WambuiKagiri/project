@@ -16,29 +16,30 @@
 </head>
 <body>
     <div class="supercontainer">
-        {% if user.is_authenticated %}
-        <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
-            <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
-                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
-                <span class="caret"></span></button>
-                <a class="upper-links" style="border-right:solid 1px ;"></a> 
-                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">SIGN OUT
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Notifications</a></li>
-                    <li><a href="#">My Properties</a></li>
-                </ul>
-            </div>
-        </div>
-            {% else %}
+            {% if user.is_authenticated %}
             <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
-                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
-                    <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
-                    <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
-                </ul>
+                <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                    <span class="caret"></span></button>
+                    <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                    <a href="{% url 'logout' %}"><button type="button"  style="background-color: #0e1a35;">SIGN OUT
+                    <span class="caret"></span></button></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/client/profile/">Profile</a></li>
+                        <li><a href="/myproperties/">My Properties</a></li>
+                        <li><a href="/client-bookings/">My Viewings</a></li>
+                    </ul>
+                </div>
             </div>
-        {% endif %}
+            {% else %}
+                <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                    <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                        <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                        <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+
         <!-- header -->
         <header>
             {% include "includes/header.html" %} 
@@ -67,39 +68,167 @@
                         <!--Pics -->
                         <div class="propertyp">
                              
-                            <div class="propertypic">                                
+                            <div class="propertypic"> 
+                                                               
                                 <img src ="{{ propety.property_picture.url }}" alt=""> 
                             </div>
-                            <div class="row">
-                                <div class="property_room col-md-3">
-                                    <div class="property_room_title">Bedrooms</div>
-                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
-                                        <div class="room_icon"><img src="{%static 'MySite/images/room_1.png'%}" alt=""></div>
-                                        <div class="room_num">{{ propety.bedrooms }}</div>
-                                    </div>
-                                </div>
-                                <div class="property_room col-md-3">
-                                    <div class="property_room_title">Bathrooms</div>
-                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
-                                        <div class="room_icon"><img src="{%static 'MySite/images/room_2.png'%}" alt=""></div>
-                                        <div class="room_num">{{ propety.bathrooms }}</div>
-                                    </div>
-                                </div>
-                                <div class="property_room col-md-3">
-                                    <div class="property_room_title">Area</div>
-                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
-                                        <div class="room_icon"><img src="{%static 'MySite/images/room_3.png'%}" alt=""></div>
-                                        <div class="room_num">{{ propety.area }}Sq Ft</div>
-                                    </div>
-                                </div>
-                                <div class="property_room col-md-3">
-                                    <div class="property_room_title">Garage</div>
-                                    <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
-                                        <div class="room_icon"><img src="{%static 'MySite/images/room_5.png'%}" alt=""></div>
-                                        <div class="room_num">{{ propety.garage }}</div>
-                                    </div>
-                                </div>
-                            </div>
+  
+
+
+<div class="container">
+        <div class='row'>
+          <div class='col-md-8'>
+            <div class="carousel slide media-carousel" id="media">
+              <div class="carousel-inner">
+                <div class="item  active">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div>          
+                    <div class="col-md-3">
+                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div>
+                    <div class="col-md-3">
+                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div> 
+                    <div class="col-md-3">
+                        <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div>        
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div>          
+                    <div class="col-md-3">
+                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div>
+                    <div class="col-md-3">
+                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div>   
+                    <div class="col-md-3">
+                        <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div>      
+                  </div>
+                </div>
+                <!-- <div class="item">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                    </div>          
+                    <div class="col-md-4">
+                      <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                    </div>
+                    <div class="col-md-4">
+                      <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
+                    </div>      
+                  </div>
+                </div> -->
+              </div>
+              <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
+              <a data-slide="next" href="#media" class="right carousel-control">›</a>
+            </div>                          
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+            <div class="property_room col-md-3">
+                <div class="property_room_title">Bedrooms</div>
+                <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                    <div class="room_icon"><img src="{%static 'MySite/images/room_1.png'%}" alt=""></div>
+                    <div class="room_num">{{ propety.bedrooms }}</div>
+                </div>
+            </div>
+            <div class="property_room col-md-3">
+                <div class="property_room_title">Bathrooms</div>
+                <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                    <div class="room_icon"><img src="{%static 'MySite/images/room_2.png'%}" alt=""></div>
+                    <div class="room_num">{{ propety.bathrooms }}</div>
+                </div>
+            </div>
+            <div class="property_room col-md-3">
+                <div class="property_room_title">Area</div>
+                <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                    <div class="room_icon"><img src="{%static 'MySite/images/room_3.png'%}" alt=""></div>
+                    <div class="room_num">{{ propety.area }}Sq Ft</div>
+                </div>
+            </div>
+            <div class="property_room col-md-3">
+                <div class="property_room_title">Garage</div>
+                <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                    <div class="room_icon"><img src="{%static 'MySite/images/room_5.png'%}" alt=""></div>
+                    <div class="room_num">{{ propety.garage }}</div>
+                </div>
+            </div>
+        </div>
+      <style>
+          /* carousel */
+.media-carousel 
+{
+  margin-bottom: 0;
+  padding: 0 40px 30px 40px;
+  margin-top: 30px;
+  width: 80%;
+}
+/* Previous button  */
+.media-carousel .carousel-control.left 
+{
+  left: -12px;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  border: 4px solid #FFFFFF;
+  border-radius: 23px 23px 23px 23px;
+  height: 40px;
+  width : 40px;
+  margin-top: 30px
+}
+/* Next button  */
+.media-carousel .carousel-control.right 
+{
+  right: -12px !important;
+  background-image: none;
+  background: none repeat scroll 0 0 #222222;
+  border: 4px solid #FFFFFF;
+  border-radius: 23px 23px 23px 23px;
+  height: 40px;
+  width : 40px;
+  margin-top: 30px
+}
+/* Changes the position of the indicators */
+.media-carousel .carousel-indicators 
+{
+  right: 50%;
+  top: auto;
+  bottom: 0px;
+  margin-right: -19px;
+}
+/* Changes the colour of the indicators */
+.media-carousel .carousel-indicators li 
+{
+  background: #c0c0c0;
+}
+.media-carousel .carousel-indicators .active 
+{
+  background: #333333;
+}
+.media-carousel img
+{
+  width: 300px;
+  height: 100px
+}
+/* End carousel */
+      </style>
+
+      <script>
+          $(document).ready(function() {
+  $('#media').carousel({
+    pause: true,
+    interval: false,
+  });
+});
+      </script>
                         </div>
                             <!-- Description-->
                                     
@@ -147,6 +276,7 @@
                                     <textarea class="form-control" rows="4" name="message" >Hello,I am interested in the {{ propety.propertytitle }} at {{ propety.location }} . Please get in touch with me to discuss the details.</textarea>
                                 </div>
                             </div>
+                            <input type="hidden" class="form-control"  name="location"  value="{{ propety.location }}">
                             <div class="form-group">
                                 <label for="email" class="col-sm-2 control-label"></label>
                                 <div class="col-sm-10">
@@ -178,9 +308,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="mobile number" class="col-sm-2 control-label">Mobile Number</label>
+                                <label for="mobile number" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="number" class="form-control" id="mobile_no" name="mobile_no" placeholder="" value="">
+                                    <input type="email" class="form-control" name="email" placeholder="" value="">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -202,6 +332,7 @@
                                 </div>
                             <div class="form-group">
                                     <div class="col-sm-10">
+                                            
                                         <input type="hidden" class="form-control" id="property_id" name="property_id"  value="{{ propety.property_id }}">
                                         <input type="hidden" class="form-control" id="propertytitle" name="propertytitle"  value="{{ propety.propertytitle}}">
                                     </div>

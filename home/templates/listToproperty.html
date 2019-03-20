@@ -1,0 +1,262 @@
+{% load static %}
+<link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/agent.css'%}" />
+<link rel="stylesheet" type="text/css" href="{%static 'home/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container-fluid display-table">
+        {% include 'includes/agenthead.html' %}
+      </div>
+<div class="container" style="    width: 75%;
+position: absolute;
+margin-left: 19%;
+margin-top: -40%;">
+        <a href="/agent/"><i class="fa fa-chevron-left"></i></a>
+<div class="stepwizard">
+    <div class="stepwizard-row setup-panel">
+        <div class="stepwizard-step">
+            <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
+            <p>Owner Details</p>
+        </div>
+        <div class="stepwizard-step">
+            <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
+            <p>Property Details</p>
+        </div>
+        <div class="stepwizard-step">
+            <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+            <p>Media</p>
+        </div>
+        <div class="stepwizard-step">
+                <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                <p>Finish</p>
+        </div>
+    </div>
+</div>
+<form role="form" method="post" action="/list/" id="list_form">
+    {% csrf_token %}
+    <div class="row setup-content" id="step-1">
+        <div class="row">
+            <div class="col-md-12">
+                <h3> Owner Details </h3>
+                <h5>Please provide the client's details below</h5>
+                <div class="form-group">
+                    <label class="control-label">First Name</label>
+                    <input  maxlength="100" type="text" required="required" class="form-control" name="lister" placeholder="Enter First Name"  />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Last Name</label>
+                    <input maxlength="100" type="text" required="required" class="form-control" placeholder="Enter Last Name" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Mobile Number</label>
+                    <input maxlength="100" type="tel" required="required" class="form-control" placeholder="Mobile Number" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Email</label>
+                    <input maxlength="100" type="email" required="required" class="form-control" placeholder="email" />
+                </div>
+                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+            </div>
+        </div>
+    </div>
+    <div class="row setup-content" id="step-2">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Property  Details</h3>
+                <h5>Provide details on the property to be listed in this section</h5>
+                <div class="form-group">
+                    <label class="control-label">Property Title</label>
+                    <input maxlength="200" type="text" required="required" name="propertytitle" class="form-control" placeholder="Property Title" />
+                </div>
+            </div>
+            
+                <div class="form-group col-md-4">
+                    <label class="control-label">Property Location</label>
+                    <input maxlength="200" type="text" required="required" name="location" class="form-control" placeholder=" Location" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">Asking Price</label>
+                    <input maxlength="200" type="number" required="required" name="price" class="form-control" placeholder="Price" />
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="control-label">For Sale or Rent</label>
+                    <select class="form-control search-slt" id="exampleFormControlSelect1 " name="rentbuy" id="propertytype" value="{{request.GET.q}}">
+                        <option disabled>Rent/Sale</option>
+                        <option>Rent</option>
+                        <option>Sale</option>
+                    </select>
+                </div>
+            
+                <div class="form-group col-md-4">
+                    <label class="control-label">Property Type</label>
+                    <select class="form-control search-slt" name="propertytype" id="propertytype" value="">
+                        <option disabled>Residential/Commercial</option>
+                        <option>Residential</option>
+                        <option >Commercial</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-4">
+                        <label class="control-label"> Extras </label>
+                        <input maxlength="200" type="text" required="required" name="extras" class="form-control" placeholder=" Extras" />
+                </div>
+                <div class="form-group col-md-4">
+                        <label class="control-label"> Description</label>
+                        <input maxlength="200" type="text" required="required" name="description" class="form-control" placeholder=" Description" />
+                </div>
+                <div class="form-group col-md-4">
+                        <label class="control-label"> Bedrooms</label>
+                        <input maxlength="200" type="number" required="required" name="bedrooms" class="form-control" placeholder=" Bedrooms" />
+                </div>
+                <div class="form-group col-md-4">
+                        <label class="control-label"> Bathrooms</label>
+                        <input maxlength="200" type="number" required="required" name="bathrooms" class="form-control" placeholder=" Bathrooms" />
+                </div>
+
+                <div class="form-group col-md-4">
+                        <label class="control-label"> Patio </label>
+                        <input maxlength="200" type="number" required="required" name="patio" class="form-control" placeholder=" patio" />
+                </div>
+                <div class="form-group col-md-4">
+                        <label class="control-label"> Area</label>
+                        <input maxlength="200" type="number" required="required" name="area" class="form-control" placeholder=" area" />
+                </div>
+                <div class="form-group col-md-4">
+                        <label class="control-label"> Garage </label>
+                        <input maxlength="200" type="number" required="required" name="garage" class="form-control" placeholder=" garage" />
+                </div>
+                
+            
+
+            <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+        </div>
+    </div>
+    <div class="row setup-content" id="step-3"> 
+            <h5>
+                Add pictures of the property
+            </h5>
+            <div class="col-md-3">
+                <input type="file" placeholder="Main Picture">
+            </div>
+            <div class="col-md-3">
+                <input type="file" placeholder="Bedroom">
+            </div>
+            <div class="col-md-3">
+                <input type="file" placeholder="Living room">
+            </div>
+            <div class="col-md-3">
+                <input type="file" placeholder="Kitchen">
+            </div>
+            <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+        </div>
+    <div class="row setup-content" id="step-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h3> Finish </h3>
+                <button class="btn btn-success btn-lg pull-right" type="submit">Finish!</button>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+<style>
+    body{ 
+    /* margin-top:40px;  */
+}
+
+.stepwizard-step p {
+    margin-top: 10px;
+}
+
+.stepwizard-row {
+    display: table-row;
+}
+
+.stepwizard {
+    display: table;
+    width: 100%;
+    position: relative;
+}
+
+.stepwizard-step button[disabled] {
+    opacity: 1 !important;
+    filter: alpha(opacity=100) !important;
+}
+
+.stepwizard-row:before {
+    top: 14px;
+    bottom: 0;
+    position: absolute;
+    content: " ";
+    width: 100%;
+    height: 1px;
+    background-color: #ccc;
+    z-order: 0;
+
+}
+
+.stepwizard-step {
+    display: table-cell;
+    text-align: center;
+    position: relative;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+</style>
+
+<script>
+    $(document).ready(function () {
+
+var navListItems = $('div.setup-panel div a'),
+        allWells = $('.setup-content'),
+        allNextBtn = $('.nextBtn');
+
+allWells.hide();
+
+navListItems.click(function (e) {
+    e.preventDefault();
+    var $target = $($(this).attr('href')),
+            $item = $(this);
+
+    if (!$item.hasClass('disabled')) {
+        navListItems.removeClass('btn-primary').addClass('btn-default');
+        $item.addClass('btn-primary');
+        allWells.hide();
+        $target.show();
+        $target.find('input:eq(0)').focus();
+    }
+});
+
+allNextBtn.click(function(){
+    var curStep = $(this).closest(".setup-content"),
+        curStepBtn = curStep.attr("id"),
+        nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
+        curInputs = curStep.find("input[type='text'],input[type='url']"),
+        isValid = true;
+
+    $(".form-group").removeClass("has-error");
+    for(var i=0; i<curInputs.length; i++){
+        if (!curInputs[i].validity.valid){
+            isValid = false;
+            $(curInputs[i]).closest(".form-group").addClass("has-error");
+        }
+    }
+
+    if (isValid)
+        nextStepWizard.removeAttr('disabled').trigger('click');
+});
+
+$('div.setup-panel div a.btn-primary').trigger('click');
+});
+</script>

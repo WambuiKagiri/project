@@ -25,24 +25,67 @@
     <div></div>
 </div>
   <script>
-      function viewBookings(){
-    document.getElementById('Bookings').style.display = 'none';
-    document.getElementById('Listings').style.display = 'block';
-    document.getElementById('view1').style.display = 'none';
-    document.getElementById('view2').style.display = 'block';
+document.querySelector('.button').onmousemove = function (e) {
 
-}
-function viewListings(){
-    document.getElementById('Bookings').style.display = 'block';
-    document.getElementById('Listings').style.display = 'none';
-    document.getElementById('view1').style.display = 'block';
-    document.getElementById('view2').style.display = 'none';
-}
+var x = e.pageX - e.target.offsetLeft;
+var y = e.pageY - e.target.offsetTop;
+
+e.target.style.setProperty('--x', x + 'px');
+e.target.style.setProperty('--y', y + 'px');
+};
   </script>
 
+  <style>
+
+
+.button {
+  position: relative;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  background: #2b2c5a;
+  padding: 0.4em 0.7em;
+  border: none;
+  color: white;
+  font-size: 1.2em;
+  cursor: pointer;
+  outline: none;
+  overflow: hidden;
+  border-radius: 100px;
+  position: absolute;
+    margin-left: 80%;
+    margin-top: -41%;
+}
+.button span {
+  position: relative;
+  pointer-events: none;
+}
+.button::before {
+  --size: 0;
+  content: '';
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: radial-gradient(circle closest-side, #4405f7, transparent);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  transition: width .2s ease, height .2s ease;
+}
+.button:hover::before {
+  --size: 400px;
+}
+
+  </style>
+  <a href="/list/">
+<button class="button">
+        <span>Add Property</span>
+    </button>
+</a>
     <div class="row">
         <h5 style="    margin-left: 20%;
-        margin-top: -39%;">Properties you have listed</h5>
+        margin-top: -39%;">Properties you have listed</h5>  
             <div class="col-md-8" style="margin-left: 20%;margin-top: -37%;    overflow: auto;
             max-height: 85vh;">
                     {% for property in propt %}

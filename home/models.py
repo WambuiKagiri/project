@@ -33,6 +33,7 @@ class contact_on_property(models.Model):
 	email = models.EmailField(max_length=150)
 	message = models.CharField(max_length=1000)
 	property_id = models.IntegerField()
+	location = models.CharField(max_length=50,null=True,blank=True)
 
 	Complete = 'Complete'
 	Pending = 'Pending'
@@ -51,12 +52,13 @@ class listrequest(models.Model):
 	mobile_no = models.CharField(max_length=10)
 class booked_viewings(models.Model):
 	booking_id = models.AutoField(primary_key=True)
-	mobile_no = models.CharField(max_length=10)
+	email = models.CharField(max_length=100)
 	property_id = models.IntegerField()
 	name = models.CharField(max_length=100)
 	date = models.DateField(blank=False,)
 	propertytitle = models.CharField(max_length=500,blank=True)
 	time = models.CharField(max_length=10)
+	
 
 class propety(models.Model):
 	lister = models.CharField(max_length=100)

@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import user_passes_test
 from .tokens import account_activation_token
 import json
 from django import forms
+from django.shortcuts import get_list_or_404, get_object_or_404
 # Create your views here.
 from .forms import loginform,RegistrationForm
 from home.models import User
@@ -39,6 +40,7 @@ from django.contrib.auth import login as auth_login
 @csrf_protect
 @ensure_csrf_cookie
 def login(request):
+	# user = get_object_or_404(User, )
 	if request.method == 'POST':
 		form = loginform(request.POST)
 		if form.is_valid():
@@ -47,13 +49,13 @@ def login(request):
 			user = authenticate(username=username,password=password)
 			# next = request.POST.get('next', '/')
 			# 	return HttpResponseRedirect(next)
-			url = request.path
+			
 			next = request.POST.get('next', '/')
 
 			auth_login(request,user)
-			if user.groups.filter(name='Agents').exists():
+			if User.objects.filter(pk=request.user.id, groups__name='Agents').exists():
 				return HttpResponseRedirect('/agent/')
-			if user.groups.filter(name='Clients').exists():
+			if User.objects.filter(pk=request.user.id, groups__name='Clients').exists():
 				return HttpResponseRedirect(next)
 				
 				

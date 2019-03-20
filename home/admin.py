@@ -114,7 +114,7 @@ admin.site.register(listings_waiting_list,listings_waiting_listAdmin)
 
 
 class booked_viewingsAdmin(admin.ModelAdmin):
-	list_display = ['booking_id','name','mobile_no','property_id','date','time','propertytitle']
+	list_display = ['booking_id','name','email','property_id','date','time','propertytitle']
 	list_filter = ['name','date','propertytitle','time']
 	
 	class Meta:
@@ -122,7 +122,7 @@ class booked_viewingsAdmin(admin.ModelAdmin):
 admin.site.register(booked_viewings,booked_viewingsAdmin)
 
 class contact_on_propertyAdmin(admin.ModelAdmin):
-	list_display = ['message_id','name','email','property_id','message','status']
+	list_display = ['message_id','name','email','property_id','message','location','status']
 	
 	class Meta:
 		model = contact_on_property

@@ -18,30 +18,30 @@
    
     <div class="supercontainer" >
         
-        {% if user.is_authenticated %}
-        
-        <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
-            <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
-                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
-                <span class="caret"></span></button>
-                <a class="upper-links" style="border-right:solid 1px ;"></a> 
-                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">SIGN OUT
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="/client/profile/">Profile</a></li>
-                    <li><a href="#">Notifications</a></li>
-                    <li><a href="/myproperties/">My Properties</a></li>
-                </ul>
-            </div>
-        </div>
-        {% else %}
+            {% if user.is_authenticated %}
             <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
-                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
-                    <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
-                    <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
-                </ul>
+                <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                    <span class="caret"></span></button>
+                    <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                    <a href="{% url 'logout' %}"><button type="button"  style="background-color: #0e1a35;">SIGN OUT
+                    <span class="caret"></span></button></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/client/profile/">Profile</a></li>
+                        <li><a href="/myproperties/">My Properties</a></li>
+                        <li><a href="/client-bookings/">My Viewings</a></li>
+                    </ul>
+                </div>
             </div>
-        {% endif %}
+            {% else %}
+                <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                    <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                        <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                        <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+
         <!-- <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
                 <ul style="color: white;margin-left: 1100px;display: inline-flex;">
                     <li class="upper-links">
@@ -139,81 +139,134 @@
                             <div class="row">
                                     <h3>Property  Details</h3>
                                     <h5>Provide details on the property to be listed in this section</h5>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label class="control-label">Property Title</label>
-                                                <input maxlength="200" type="text" required="required" name="propertytitle" class="form-control" placeholder="Property Title" />
-                                            </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                            <label class="control-label">Property Location</label>
-                                            <input maxlength="200" type="text" required="required" name="location" class="form-control" placeholder=" Location" />
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                        <label class="control-label">Asking Price</label>
-                                        <input maxlength="200" type="number" required="required" name="price" class="form-control" placeholder="Price" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label class="control-label">For Sale or Rent</label>
-                                        <select class="form-control search-slt" id="exampleFormControlSelect1 " name="rentbuy" id="propertytype" value="{{request.GET.q}}">
-                                            <option disabled>Rent/Sale</option>
-                                            <option>Rent</option>
-                                            <option>Sale</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label class="control-label">Property Type</label>
-                                        <select class="form-control search-slt" name="propertytype" id="propertytype" value="">
-                                            <option disabled>Residential/Commercial</option>
-                                            <option>Residential</option>
-                                            <option >Commercial</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                        <div class="form-group col-md-4">
-                                                <label class="control-label"> Extras </label>
-                                                <input maxlength="200" type="text" required="required" name="extras" class="form-control" placeholder=" Extras" />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                                <label class="control-label"> Description</label>
-                                                <input maxlength="200" type="text" required="required" name="description" class="form-control" placeholder=" Description" />
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                                <label class="control-label"> Bedrooms</label>
-                                                <input maxlength="200" type="number" required="required" name="bedrooms" class="form-control" placeholder=" Bedrooms" />
-                                        </div>
-                                </div>
-
-
-                                
-
-
-
-                                <div class="row">
-                                    <div class="form-group col-md-4">
-                                            <label class="control-label"> Bathrooms</label>
-                                            <input maxlength="200" type="number" required="required" name="bathrooms" class="form-control" placeholder=" Bathrooms" />
-                                    </div>
-                    
-                                    <div class="form-group col-md-4">
-                                            <label class="control-label"> Patio </label>
-                                            <input maxlength="200" type="number" required="required" name="patio" class="form-control" placeholder=" patio" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                            <label class="control-label"> Area</label>
-                                            <input maxlength="200" type="number" required="required" name="area" class="form-control" placeholder=" area" />
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                            <label class="control-label"> Garage </label>
-                                            <input maxlength="200" type="number" required="required" name="garage" class="form-control" placeholder=" garage" />
-                                    </div>
-                                </div>
+                                    <div class="form-group">
+                                            <label for="name">Property Title</label>
+                                            <input type="text" class="form-control" name="propertytitle" placeholder="Title">
+                                          </div>
+                                          <div class="form-group">
+                                            <label for="seeAnotherField">Property Type</label>
+                                            <select class="form-control" id="seeAnotherField" name="propertytype">
+                                                  <option value="no">Commercial</option>
+                                                  <option value="yes">Residential</option>
+                                            </select>
+                                          </div>
+                                  
+                                          <!--Residential -->
+                                          <div class="form-group" id="otherFieldDiv">
+                                              <div class="row">
+                                                  <div class="col-md-6">
+                                                          <label for="otherField">Rent/Sale</label>
+                                                          <select class="form-control" id="otherField" name="rentbuy">
+                                                            <option>Rent</option>
+                                                            <option>Sale</option>
+                                                          </select>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                          <label for="otherFieldLocation">Location</label>
+                                                          <input type="text" class="form-control" name="location" placeholder="Location">
+                                                  </div>
+                                              </div>
+                                  
+                                             <div class="row">
+                                                  <div class="col-md-4">
+                                                          <label for="otherFieldPrice">Price</label>
+                                                          <input type="number" class="form-control" name="price" placeholder="Price">
+                                  
+                                                  </div>
+                                                  <div class="col-md-4">
+                                                          <label for="otherFieldPrice">Bedrooms</label>
+                                                          <input type="number" class="form-control" name="bedrooms" placeholder="Bedrooms">
+                                                  </div>
+                                  
+                                                  <div class="col-md-4">
+                                                          <label for="otherFieldBathrooms">Bathrooms</label>
+                                                          <input type="number" class="form-control" name="bathrooms" placeholder="Bathrooms">
+                                                  </div>
+                                             </div>
+                                  
+                                             <div class="row">
+                                              <div class="col-md-4">
+                                                      <label for="otherFieldArea">Area</label>
+                                                      <input type="number" class="form-control" name="area" placeholder="Area">
+                                              </div>
+                                              <div class="col-md-4">
+                                                      <label for="otherFieldPatio">Patio</label>
+                                                      <input type="number" class="form-control" name="patio" placeholder="Patio">
+                                              </div>
+                                              <div class="col-md-4">
+                                            <label for="otherFieldGarage">Garage</label>
+                                            <input type="number" class="form-control" name="garage" placeholder="Garage">
+                                              </div>
+                                             </div>
+                                             <label for="otherFieldDescription">Description</label>
+                                             <textarea class="form-control" name="description" rows="3"></textarea>
+                                  
+                                  
+                                          </div>
+                                  
+                                  
+                                          <!-- Commercial -->
+                                          <div class="form-group" id="otherFieldDiv2">
+                                  
+                                            <div class="row">
+                                                  <div class="col-md-6">
+                                                          <label for="otherField2">Rent/Sale</label>
+                                                          <select class="form-control" id="otherField" name="rentbuy">
+                                                            <option>Rent</option>
+                                                            <option>Sale</option>
+                                                          </select>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                          <label for="otherField2Location">Location</label>
+                                                          <input type="text" class="form-control" name="location" placeholder="Location">
+                                                  </div>
+                                              </div>
+                                  
+                                             <div class="row">
+                                                  <div class="col-md-12">
+                                                          <label for="otherField2Price">Price</label>
+                                                          <input type="number" class="form-control" name="price" placeholder="Price">
+                                  
+                                                  </div>
+                                             </div>
+                                  
+                                             <div class="row">
+                                              <div class="col-md-4">
+                                                      <label for="otherField2Area">Area</label>
+                                                      <input type="number" class="form-control" name="area" placeholder="Area">
+                                              </div>
+                                              <div class="col-md-4">
+                                                      <label for="otherField2Patio">Patio</label>
+                                                      <input type="number" class="form-control" name="patio" placeholder="Patio">
+                                              </div>
+                                              <div class="col-md-4">
+                                            <label for="otherField2Garage">Garage</label>
+                                            <input type="number" class="form-control" name="garage" placeholder="Garage">
+                                              </div>
+                                             </div>
+                                             <label for="otherField2Description">Description</label>
+                                             <textarea class="form-control" name="description" rows="4"></textarea>
+                                  
+                                          </div>
+                                  
+                                                
+        <script>$("#seeAnotherField").change(function() {
+                if ($(this).val() == "yes") {
+                    $('#otherFieldDiv').show();
+                    $('#otherFieldDiv2').hide();
+                    $('#otherField').attr('required','');
+                    $('#otherField').attr('data-error', 'This field is required.');
+                } else {
+                    $('#otherFieldDiv').hide();
+                    $('#otherFieldDiv2').show();
+                    $('#otherField').removeAttr('required');
+                    $('#otherField').removeAttr('data-error');				
+                }
+            });
+            $("#seeAnotherField").trigger("change");
+            
+            
+        </script>
                                 
                     
                                 <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
@@ -241,7 +294,8 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h3> Finish </h3>
-                                    <button class="btn btn-success btn-lg pull-right" type="submit">Finish!</button>
+                                    <input type="submit" value="Finish" class="pull-right">
+                                    
                                 </div>
                             </div>
                         </div>
@@ -250,7 +304,7 @@
                     
                     <style>
                         body{ 
-                        margin-top:40px; 
+                        /* margin-top:40px;  */
                     }
                     
                     .stepwizard-step p {
