@@ -2,19 +2,22 @@ from django.contrib import admin
 from django.contrib import messages
 from django.shortcuts import render
 from django import forms
-from django.contrib.auth.admin import UserAdmin
+
 
 from .models import User
 from .models import subscriber
-from .models import listings_waiting_list
+from .models import listings_waiting_list,paypal_payments
 from .models import contact_on_property
 from .models import propety
 from .models import booked_viewings,listrequest
 # Register your models here.
-admin.site.register(User)
+
 
 
 admin.site.register(listrequest)
+
+
+
 
 class property_admin(admin.ModelAdmin):
 	def formfield_for_dbfield(self, db_field, **kwargs):
@@ -56,6 +59,9 @@ class property_admin(admin.ModelAdmin):
 			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
 			return formfield
 		if db_field.name == 'lister':
+			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
+			return formfield
+		if db_field.name == 'tour':
 			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
 			return formfield
 		if db_field.name == 'status':
@@ -127,3 +133,20 @@ class contact_on_propertyAdmin(admin.ModelAdmin):
 	class Meta:
 		model = contact_on_property
 admin.site.register(contact_on_property,contact_on_propertyAdmin)
+
+class paypal_payments_admin(admin.ModelAdmin):
+	list_display = ['client','transaction_id','transaction_status','amount','date']
+	list_filter = ['client','date']
+
+	class Meta:
+		model = paypal_payments
+
+admin.site.register(paypal_payments,paypal_payments_admin)
+
+class UserAdmin(admin.ModelAdmin):
+	list_display = [field.name for field in User._meta.fields if field.name != "id"]
+
+	class Meta:
+		model = User
+
+admin.site.register(User,UserAdmin)

@@ -43,8 +43,8 @@
                     <span class="caret"></span></button></a>
                     <ul class="dropdown-menu">
                         <li><a href="/client/profile/">Profile</a></li>
-                        <li><a href="#">Notifications</a></li>
                         <li><a href="/myproperties/">My Properties</a></li>
+                        <li><a href="/client-bookings/">My Viewings</a></li>
                     </ul>
                 </div>
             </div>
@@ -57,121 +57,107 @@
                 </div>
             {% endif %}
 
+
         <!-- header -->
         <header>
             {% include "includes/header.html" %} 
         </header>
 
 
-        <!--Top bars-->
-        <section id="tabs" class="project-tab">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <nav>
-                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">My Properties</a><a class="upper-links" style="border-right:solid 1px ;"></a> 
-                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Transaction History</a><a class="upper-links" style="border-right:solid 1px ;"></a> 
-                                <a class="nav-item nav-link"  href="/ListProperty/" role="tab" aria-controls="nav-contact" aria-selected="false">Add property</a>
-                            </div>
-                        </nav>
-                        <br>
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" style="    height: 8px;">
-                                <table class="table" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Property ID</th>
-                                            <th>Category</th>
-                                            <th>Location</th>
-                                            <th>Price</th>
-                                            <th>Status</th>
-                                            <th>Expires</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                            {% for propety in props %}
-                                        <tr>
-                                            <td><a href="#">{{ propety.property_id }}</a></td>
-                                            <td>{{ propety.propertytype }}</td>
-                                            <td>{{ propety.location }}</td>
-                                            <td>{{ propety.price }}</td>
-                                            <td> {{ propety.status}}</td>
-                                            <td></td>
-                                        </tr>
-                                            {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                                <table class="table" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Transaction Code</th>
-                                            <th>Type</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-                                            <th>Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
+        <div class="row ">
+            <div class="col-md-4 ">
+                <p>Transaction History</p>
+                <p>Bookings Made</p>
             </div>
-        </section>
-        <style>
-            .project-tab {
-    padding: 10%;
-    margin-top: -8%;
-}
-.project-tab #tabs{
-    background: #007b5e;
-    color: #eee;
-}
-.project-tab #tabs h6.section-title{
-    color: #eee;
-}
-.project-tab #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    color: #0062cc;
-    background-color: transparent;
-    border-color: transparent transparent #f3f3f3;
-    border-bottom: 3px solid !important;
-    font-size: 16px;
-    font-weight: bold;
-}
-.project-tab .nav-link {
-    border: 1px solid transparent;
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
-    color: #0062cc;
-    font-size: 16px;
-    font-weight: 600;
-}
-.project-tab .nav-link:hover {
-    border: none;
-}
-.project-tab thead{
-    background: #f3f3f3;
-    color: #333;
-}
-.project-tab a{
-    text-decoration: none;
-    color: #333;
-    font-weight: 600;
-}
-        </style>
+                <h5>Properties you have listed</h5>  
+                    <div class="col-md-8" style="margin-left: 20%;   overflow: auto;
+                    max-height: 85vh;">
+                            {% for property in props %}
+                        
+                            <div class="well col-sm-12" style="color: black;object-fit: contain;">
+                                <div class="property-image">
+                                    <img src="{{ property.property_picture.url }}" class="col-lg-4 col-md-5 col-sm-6">
+                                    <div class="property_room_title"><b>{{ property.propertytitle }} at {{ property.location }} </b></div>
+                                </div>
+                                <div class="property-details col-lg-8 col-md-7 col-sm-6">
+                                    <p>{{ property.description |truncatechars:100 }}</p>
+                                    <div class="row">
+        
+                                        <div class="property_room col-md-3">
+                                            <div class="property_room_title">Bedrooms</div>
+                                            <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                                <div class="room_icon"><img src="{%static 'MySite/images/room_1.png'%}" alt=""></div>
+                                                <div class="room_num">{{ property.bedrooms }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="property_room col-md-3">
+                                            <div class="property_room_title">Bathrooms</div>
+                                            <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                                <div class="room_icon"><img src="{%static 'MySite/images/room_2.png'%}" alt=""></div>
+                                                <div class="room_num">{{ property.bathrooms }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="property_room col-md-3">
+                                            <div class="property_room_title">Area</div>
+                                            <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                                <div class="room_icon"><img src="{%static 'MySite/images/room_3.png'%}" alt=""></div>
+                                                <div class="room_num">{{ property.area }}Sq Ft</div>
+                                            </div>
+                                        </div>
+                                        <div class="property_room col-md-3">
+                                            <div class="property_room_title">Garage</div>
+                                            <div class="property_room_content d-flex flex-row align-items-center justify-content-start">
+                                                <div class="room_icon"><img src="{%static 'MySite/images/room_5.png'%}" alt=""></div>
+                                                <div class="room_num">{{ property.garage }}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <a href="/agent-edit-property/{{property.propertytitle}}/">
+                                <button type="button" class="btn btn-primary" style="margin-left: 45%;
+                                margin-top: 2%;">Edit</button></a>
+        
+                                <button type="button" class="btn btn-danger"  style="margin-left: 3%;margin-top: 2%;"><a href="#myModal" class="trigger-btn" data-toggle="modal" style="    color: white;">Delete</a></button>
+                            </div>
+                        
+                            {% endfor %}
+        
+                         <div class="pagination">
+                            <span class="step-links">
+                                {% if propt.has_previous %}
+                                    <a href="?page={{ propt.previous_page_number }}">Previous</a>
+                                {% endif %}  
+                            
+                                <span class="current">
+                                    Page {{ propt.number }} of {{ propt.paginator.num_pages }}
+                                </span>
+                                {% if propt.has_next %}  
+                                    <a href="?page={{ propt.next_page_number }}">Next </a>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div> 
+                    <div id="myModal" class="modal fade">
+                            <div class="modal-dialog modal-confirm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="icon-box">
+                                                <i class="far fa-trash-alt"></i>
+                                        </div>				
+                                        <h4 class="modal-title">Are you sure?</h4>	
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" >&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Do you really want to delete this property? This process cannot be undone.</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                                        <button type="button" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>  
+            </div>
     </div>
 </body>
 </html>

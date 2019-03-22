@@ -26,7 +26,7 @@
          border-collapse: collapse;
          width: 70% !important;
          margin-left: 18% !important;
-         margin-top: -43% !important;
+         margin-top: -40% !important;
          position: absolute;
        }
                
@@ -44,7 +44,7 @@
        <table class="table table-striped">
            <caption>Property requests</caption>
            <form method="post" action="/updatemessage/">{% csrf_token %}
-                   <button style="margin-left: 83%;margin-top: -20%;" type="submit">Update</button>
+                   <!-- <button style="margin-left: 83%;margin-top: -20%;" type="submit">Update</button> -->
            </form>
            
                <thead>
@@ -54,7 +54,6 @@
                    <th>Email</th>
                    <th>Message</th>
                    <th>Property ID</th>
-                   <th style="width: 36px;">Status</th>
                    <th> </th>
                  </tr>
                </thead>
@@ -67,7 +66,6 @@
                        <td>{{ contact_on_property.email }}</td>
                        <td>{{ contact_on_property.message }}</td>
                        <td>{{ contact_on_property.property_id }}</td>  
-                       <td style="color: green;">{{ contact_on_property.status }}</td>
                        <td><input type="checkbox" name="name2" />&nbsp;</td>
                  </tr>
                </a>

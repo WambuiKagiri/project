@@ -47,7 +47,7 @@ from .models import subscriber
 from .models import listings_waiting_list
 from .models import contact_on_property
 from .models import booked_viewings
-from .models import propety,User
+from .models import propety,User,listrequest, paypal_payments
 
 
 
@@ -104,11 +104,12 @@ def search(request):
 		loc = request.POST['location']
 		beds = request.POST['bedrooms']
 		baths = request.POST['bathrooms']
-		minprice = int(request.POST['minprice'])
-		maxprice = int(request.POST['maxprice'])
+		minprice = request.POST['minprice']
+		maxprice = request.POST['maxprice']
 		
-		print(minprice,maxprice)
-		stuff = propety.objects.filter(Q(propertytype__icontains=tyype) & Q(rentbuy__icontains=re)  & Q(location__icontains=loc) & Q(bedrooms__icontains=beds) & Q(bathrooms__icontains=baths)) & Q(price__icontains__range=(maxprice,minprice))
+		print(minprice,maxprice,loc)
+		# stuff2 = propety.objects.filter(price__gte=minprice,price__lte=maxprice)
+		stuff = propety.objects.filter(Q(price__gte=minprice,price__lte=maxprice) & (Q(propertytype__icontains=tyype) & Q(rentbuy__icontains=re)  & Q(location__icontains=loc) & Q(bedrooms__icontains=beds) & Q(bathrooms__icontains=baths))) 
 		return render(request, 'ajax_search.html',{'stuff':stuff})	
 	else:
 		return render(request, 'index.html')
@@ -210,8 +211,8 @@ class PropertiesPageView(TemplateView):
 
 @csrf_protect
 @ensure_csrf_cookie
-# @login_required(login_url='/accounts/login/')
-# @user_passes_test(lambda u: u.groups.filter(name='Agents').exists())
+@login_required(login_url='/accounts/login/')
+@user_passes_test(lambda u: u.groups.filter(name='Agents').exists())
 def dashboard(request):
 	propt = propety.objects.filter(agent = request.user)
 	paginator = Paginator(propt,4)
@@ -228,20 +229,9 @@ def dashboard(request):
 	# else:
 	# 	return redirect('/accounts/login/')
 
-class ListingsPageView(TemplateView):
-	def get(self,request, **kwargs):
-		listt = listings_waiting_list.objects.all()
-		paginator = Paginator(listt,8)
-
-		page = request.GET.get('page')
-		try:
-			listt = paginator.page(page)
-		except PageNotAnInteger:
-			listt = paginator.page(1)
-		except EmptyPage:
-			listt = paginator.page(paginator.num_pages)
-
-		return render(request,'requestedlistings.html',{'listt':listt})
+def agentlistrequests(request):
+	lisstt = listrequest.objects.all()
+	return render(request,'listrequests.html',{'lisstt':lisstt})
 
 class BookingsPageView(TemplateView):
 	def get(self,request, **kwargs):
@@ -279,36 +269,37 @@ def agentsearch(request):
 
 
 
-# from twilio.rest import Client
-
-
-# account_sid = 'AC108e760543e56be66fcd57b4e835ca37'
-# auth_token = '1c80885600c3733c5491215c3202f357'
-# client = Client(account_sid, auth_token)
-
-# message = client.messages \
-#                 .create(
-#                      body=" Hello, We have received your payment. ",
-#                      from_='+12015716689',
-#                      to='+254708618988'
-#                  )
-
-# print(message.sid)
-
 @csrf_protect
 @ensure_csrf_cookie
 def listpropetrty(request):
 	form = list_form(request.POST)
 	if request.method == 'POST':	
 		if form.is_valid():
-			propety = form.save()
-			propety.save()			
+			title = form.cleaned_data.get('propertytitle')
+			tyype = form.cleaned_data.get('propertytype')
+			loc = form.cleaned_data.get('location')
+			pri = form.cleaned_data.get('price')
+			purpose = form.cleaned_data.get('rentbuy')
+			beds = form.cleaned_data.get('bedrooms')
+			baths = form.cleaned_data.get('bathrooms')
+			ar = form.cleaned_data.get('area')
+			pat = form.cleaned_data.get('patio')
+			gar = form.cleaned_data.get('garage')
+			desc = form.cleaned_data.get('description')
+			
+			p = propety.objects.create(propertytitle=title,propertytype=tyype,location=loc,price=pri,rentbuy=purpose,bedrooms=beds,bathrooms=baths,area=ar,patio=pat,garage=gar,description=desc)
+
+			print(p)
+			# propety.save()	
+			messages.success(request, "Property added successfully")			
 			return render(request, 'listToproperty.html',{'form':form})
 
-		else:		
+		else:
+			print("form not valid")		
 			return render(request, 'listToproperty.html',{'form':form})
 
 	else:
+		print("method not worked")
 		form = list_form()
 		args = {'form':form}
 		args.update(csrf(request))
@@ -342,22 +333,23 @@ def propertycontact(request):
 
 @csrf_protect
 @ensure_csrf_cookie
-# @login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
 # @user_passes_test(lambda u: u.groups.filter(name='Client').exists())
 def listpropertyy(request,**kwargs):
-	form = list_form(request.POST)
+	form = list_form(request.POST,)
 	if request.method == 'POST':	
 		if form.is_valid():
-			propety = form.save()
-			propety.save()
-			messages.success(request, "Your message has been sent")			
-			return HttpResponseRedirect('/process-payment/')
-				
-
-		else:		
+			form.save()	
+			messages.success(request, "Property added successfully")	
+			return render(request, 'payments/process_payment.html')
+					
+			
+		else:
+			print(form)		
 			return render(request, 'ListProperty.html',{'form':form})
 
 	else:
+		print("sio method")
 		form = list_form()
 		args = {'form':form}
 		args.update(csrf(request))
@@ -366,25 +358,42 @@ def listpropertyy(request,**kwargs):
 
 def clientproperties(request):
 	props = propety.objects.filter(lister= request.user)
+	trans = paypal_payments.objects.filter(client = request.user)
 	return render(request,'myproperties.html',{'props':props})
 
 def paypage(request):
 	return render(request,'payment.html')
 
 def messagestatus(request):
-    message = contact_on_property.objects.all()
-    message.status = 'Complete'
-    message.update()
 
+    message = contact_on_property.objects.all()
     return redirect(request, 'propertymessages.html',{'message':message})
 
 def clientbookings(request):
 	props = booked_viewings.objects.filter(name= request.user)
 	return render(request,'clientbookings.html',{'props':props})
 
+@ensure_csrf_cookie
+@csrf_protect
 def agenteditproperty(request,propertytitle):
 	propt = propety.objects.all().filter(propertytitle=propertytitle)
-	return render(request,'agenteditproperty.html',{'propt':propt})
+	form = list_form(request.POST)
+	if request.method == 'POST':
+		if form.is_valid():
+			form.save()
+			messages.success("Property updated successfully")
+			return render(request,'agent.html',{'form':form})
+
+		else:
+			print("Form si valid")
+			return render(request,'agenteditproperty.html',{'form':form,'propt':propt})
+
+	else:
+		return render(request,'agenteditproperty.html',{'propt':propt,'form':form})
+
+
+
+	
 
 
 @ensure_csrf_cookie
@@ -394,7 +403,7 @@ def listingrequest(request):
 	if request.method == 'POST':
 		if form.is_valid():
 			form.save()
-			messages.success(request, "Your message has been sent")
+			messages.success(request, "Your message has been sent. Our agent will contact you shortly")
 			return render(request,'ListProperty.html',{'form':form})
 		
 		else:

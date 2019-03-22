@@ -6,6 +6,8 @@ from django.conf import settings
 from decimal import Decimal
 from django.views.decorators.csrf import csrf_exempt
 from paypal.standard.forms import PayPalPaymentsForm
+
+from home.models import paypal_payments
 # from MySite.models import propety
 # from MySite.forms import list_form
 
@@ -34,6 +36,16 @@ def process_payment(request):
 
 @csrf_exempt
 def payment_done(request):
+    a = request.GET.get('amt', None)
+    # b = request.GET.get('cm', None)
+    item = request.GET.get('item_name', None)
+    d = request.GET.get('item_number', None)
+    e = request.GET.get('st', None)
+    f = request.GET.get('tx', None)
+    user = request.user.get_username()
+
+    g = paypal_payments.objects.create(client=request.user,amount=a,transaction_status=e,transaction_id=f)
+
     return render(request, 'payments/payment_done.html')
  
  

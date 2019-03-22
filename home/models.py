@@ -50,6 +50,8 @@ class listrequest(models.Model):
 	name = models.CharField(max_length=100)
 	email = models.CharField(max_length=200)
 	mobile_no = models.CharField(max_length=10)
+
+
 class booked_viewings(models.Model):
 	booking_id = models.AutoField(primary_key=True)
 	email = models.CharField(max_length=100)
@@ -70,6 +72,7 @@ class propety(models.Model):
 	propertytype = models.CharField(max_length=50)
 	extras = models.CharField(max_length=20,blank=True)
 	rentbuy = models.CharField(max_length=10)
+	tour = models.CharField(max_length=300,null=True,blank=True)
 	property_picture = models.FileField(upload_to='',blank=True)
 	entrance_pic = models.FileField(upload_to='',blank=True)
 	sitting_pic = models.FileField(upload_to='',blank=True)
@@ -100,3 +103,11 @@ class property_admin(admin.ModelAdmin):
 	form = property_form
 	property_title = models.CharField(max_length=2000)
 	locatiom = models.CharField(max_length=1000)
+
+class paypal_payments(models.Model):
+	client = models.ForeignKey(User,on_delete=models.CASCADE)
+	date = models.DateField(auto_now_add=True)
+	amount = models.FloatField(blank=True)
+	transaction_status = models.CharField(max_length=800,blank=True)
+	transaction_id = models.CharField(max_length=255,blank=True,unique=True)
+

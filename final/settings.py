@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'home',
     'accounts',
     'payments',
+    'paypal.standard.ipn', 
 ]
 
 MIDDLEWARE = [

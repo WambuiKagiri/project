@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <style>
+        .upper-links {
+    display: inline-block;
+    padding: 0 11px;
+    line-height: 23px;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0;
+    color: inherit;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+    </style>
+    <div class="supercontainer">
+            {% if user.is_authenticated %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                    <span class="caret"></span></button>
+                    <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                    <a href="{% url 'logout' %}"><button type="button"  style="background-color: #0e1a35;">SIGN OUT
+                    <span class="caret"></span></button></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/client/profile/">Profile</a></li>
+                        <li><a href="/myproperties/">My Properties</a></li>
+                        <li><a href="/client-bookings/">My Viewings</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% else %}
+                <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                    <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                        <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                        <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+
+          
+
+          
+
+
+
+
+
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+ 
+{% block title %}Make Payment{% endblock %}
+
+<div class="card" role="form"> 
+<div class="card-header">
+<p>Make Payment</p>
+</div>
+
+<div class="card-body">
+
+{% block content %}
+<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+    <input type="hidden" name="cmd" value="_s-xclick">
+    <input type="hidden" name="hosted_button_id" value="UJP9Q9NURMMKA">
+    <table>
+    <tr><td><input type="hidden" name="on0" value="Payment Plans">Payment Plans</td></tr><tr><td><select name="os0">
+        <option value="Monthly subscription">Monthly subscription : $15.00 USD - monthly</option>
+        <option value="Annual subscription">Annual subscription : $210.00 USD - yearly</option>
+    </select> </td></tr>
+    </table>
+    <input type="hidden" name="currency_code" value="USD">
+    <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_subscribeCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+    <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+{% endblock %}
+</div>
+</div>
+
+<style>
+                    *[role="form"] {
+                max-width: 530px;
+                padding: 15px;
+                margin: 0 auto;
+                border-radius: 0.3em;
+                background-color: #f2f2f2;
+                }
+</style>

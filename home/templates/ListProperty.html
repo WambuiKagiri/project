@@ -12,6 +12,9 @@
     <link rel="stylesheet" type="text/css" href="{%static 'home/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/jquery-file-upload/vendor/jquery.ui.widget.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.iframe-transport.js' %}"></script>
+    <script src="{% static 'js/jquery-file-upload/jquery.fileupload.js' %}"></script>
     <!-- <script src="{%static 'MySite/styles/main.js'%}"></script> -->
 </head>
 <body>
@@ -87,7 +90,7 @@
                        
     .required:after { content:" *"; }
 </style>
-                    
+                   
                     <div class="stepwizard">
                         <div class="stepwizard-row setup-panel">
                             <div class="stepwizard-step">
@@ -108,8 +111,8 @@
                             </div>
                         </div>
                     </div>
-                    <form role="form" method="post" action="/ListProperty/" id="list_form">
-                        {% csrf_token %}
+                    <form role="form" method="post" action="/ListProperty/" id="list_form">{% csrf_token %}
+                        
                         <div class="row setup-content" id="step-1">
                             <div class="row">
                                 <div class="col-md-12">
@@ -292,15 +295,19 @@
                             </div>
                         <div class="row setup-content" id="step-4">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12">          
                                     <h3> Finish </h3>
-                                    <input type="submit" value="Finish" class="pull-right">
-                                    
-                                </div>
+                                                                         
+                                </div>                              
                             </div>
+                            <button type="submit">Submit</button>
                         </div>
                     </form>
+
+                   
                     </div>
+
+                    
                     
                     <style>
                         body{ 
@@ -408,7 +415,9 @@
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Listing request</h5>
+                              <h5 class="modal-title" id="exampleModalLabel"></h5>
+                              <h5>One of our agents will contact you to get details on the property you want to list.</h5><br>
+                              <h5>You will be required to pay $15.00 USD per month or $210.00 USD annually for your property to be showcased on our site.</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
@@ -416,10 +425,13 @@
                             <form action="/listrequest/" method="POST" id="listrequestform">
                                 {% csrf_token %}
                             
-                            <div class="modal-body">
-                                    <input type="text" placeholder="Your Name" name="name" value="{{ request.user.username}}">
-                                    <input type="tel" placeholder="Tel no" name="mobile_no">
-                                    <input type="email" placeholder="Email" name="email">
+                            <div class="modal-body ">
+                                    <label for="">Your Name:</label>
+                                    <input class="form-control" type="text" placeholder="Your Name" name="name" value="{{ request.user.username}}">
+                                    <label for="">Mobile No:</label>
+                                   <br> <input class="form-control" type="tel" placeholder="Tel no" name="mobile_no">
+                                   <label for="">Email:</label>
+                                   <br> <input class="form-control" type="email" placeholder="Email" name="email">
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -432,6 +444,8 @@
          
 </div>
     </div>
+    {% block javascript %}
+    {% endblock %}
    
 <footer class="container-fluid text-center" style="background-color: #79e8c0 !important;">
     <p class="h6">&copy All rights Reserved.<br><br> Created and developed by: Wambui Kagiri</p>

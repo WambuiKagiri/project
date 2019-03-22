@@ -16,7 +16,6 @@
 <body class="home">
   <div class="container-fluid display-table">
     {% include 'includes/agenthead.html' %}
-
   </div>
   <div class="row">
       {% for p in propt %}
@@ -33,7 +32,7 @@
                     <div class="panel-body">
                         <h3 class="panel-title pull-left">Property Details</h3>
                         <br><br>
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" method="post" action="/agent-edit-property/{{p.propertytitle}}/" id="list_form">{% csrf_token %}
                             <label>Property Title</label>
                             <input type="text" class="form-control" id="" name="propertytitle" placeholder="Property Title" value="{{ p.propertytitle }}">
                             <label>Category</label>
@@ -43,13 +42,14 @@
                             </select>
                             <label>For Rent/Sale</label>
                             <select id="profile_date_month" name="propertytype"  class="form-control">
-                                <option value="" selected="selected">Rent</option>
-                                <option value="" >Sale</option>
+                                <option  selected="selected">Rent</option>
+                                <option >Sale</option>
+                               
                             </select>
                             <div class="row">
                                 <div class="col-md-6">
                                         <label>Location</label>
-                                        <input type="email" class="form-control" value="{{ p.location }}" name="location" placeholder="Location" >
+                                        <input type="text" class="form-control" value="{{ p.location }}" name="location" placeholder="Location" >
                                 </div>
                                 <div class="col-md-6">
                                         <label>Price</label>
@@ -89,7 +89,7 @@ function readURL(input) {
         }
     }
                             </script>
-                        </form>
+                        
                     </div>
                 </div>
 
@@ -99,10 +99,10 @@ function readURL(input) {
                         <br><br>
                         <div align="center">
                             <div class="col-lg-12 col-md-12">
-                                    <img id="blah" src="https://dummyimage.com/640x360/fff/aaa" alt="your image" />
+                                    <img id="blah" src="https://dummyimage.com/640x360/fff/aaa" name="property_picture" alt="your image"  />
                             </div>
                             <div class="col-lg-12 col-md-12">
-                                <button class="btn btn-primary"><input name="filesToUpload[]" id="filesToUpload" type="file" multiple="" onchange="readURL(this);" /><i class="fa fa-upload" aria-hidden="true"></i> Upload new media</button>
+                                <button class="btn btn-primary"><input name="property_picture" id="filesToUpload" type="file" multiple="" onchange="readURL(this);" /><i class="fa fa-upload" aria-hidden="true"></i> Upload new media</button>
                             </div>
                         </div>
                     </div>
@@ -111,12 +111,12 @@ function readURL(input) {
                 <div class="panel panel-default">
                     <div class="panel-body">
                         
-                        <form class="form-horizontal">
+                        
                             <label>Description</label>
-                            <textarea class="form-control" rows="4" placeholder="{{ p.description }}"></textarea>
-                        </form>
+                            <textarea class="form-control" rows="4" placeholder="" name="description">{{ p.description }}</textarea>
+                        
                         <br><br>
-                        <form class="form-horizontal">
+                        
                             <label>Bathrooms</label>
                            <input type="number" name="bathrooms" value="{{ p.bathrooms }}">
                            <label>Bedrooms</label>
@@ -128,7 +128,7 @@ function readURL(input) {
                            <br><br>
                            <label>Garage</label>
                            <input type="number" name="garage" value="{{ p.garage }}">
-                        </form>
+                        
                     </div>
 
                 </div>
@@ -136,11 +136,12 @@ function readURL(input) {
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <button class="btn btn-default"><i class="fa fa-fw fa-times" aria-hidden="true"></i> Cancel</button>
-                        <button class="btn btn-primary"><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update Property</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"  aria-hidden="true"></i> Update Property</button>
                     </div>
                 </div>
             </div>
     {% endfor %}
+</form>
   </div>
   <script>
       $(function () {

@@ -54,7 +54,7 @@
                             <div class="property_room_title"><b>{{ z.propertytitle }} at {{ z.location }} </b></div>
                         </div>
                         <div class="property-details col-lg-8 col-md-7 col-sm-6">
-                            <p>{{ z.description }}</p>
+                            <p>{{ z.description |truncatechars:200}}</p>
                             <div class="row">
 
                                 <div class="property_room col-md-3">

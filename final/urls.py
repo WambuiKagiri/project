@@ -29,15 +29,15 @@ from django.urls import path
 from django.views.generic import TemplateView
 from home.views import listingrequest
 from home.views import dashboard,home,subscribe,message,listpropertyy,propertypage, booking
-from home.views import agentprofile,clientprofile,clientproperties
+from home.views import agentprofile,clientprofile,clientproperties,agentlistrequests
 from home import views
 from payments.views import process_payment, payment_done, payment_canceled
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url('admin/', admin.site.urls),
     url(r'^', include('home.urls')),
     url(r'^', include('django.contrib.auth.urls')), 
-    # path('paypal/', include('paypal.standard.ipn.urls')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
     # url(r'^notifications/', include('notify.urls', 'notifications')),
     url(r'^search/',search,name='search'),
     # url(r'^process-payment/',process_payment,name='payment'),
@@ -48,7 +48,7 @@ urlpatterns = [
     url(r'^about/$', views.AboutPageView.as_view(),name='about'),
 	url(r'^contact/$', views.ContactPageView.as_view(),name='contact'),
 	url(r'^properties/$', views.PropertiesPageView.as_view(),name='properties'),
-	url(r'^requestedlistings/$', views.ListingsPageView.as_view()),
+	url(r'^requestedlistings/$',agentlistrequests),
 	url(r'^bookedviewings/$', views.BookingsPageView.as_view()),
 	# url(r'^(?P<room_name>[^/]+)/$', views.message, name='room'),
 	# url(r'^message/$', message,name='chat'),
@@ -61,7 +61,7 @@ urlpatterns = [
 	url(r'^register/',register,name='register'),
 	url(r'^subscribe/$',subscribe,name='subscribe'),
     url(r'^ListProperty/$', listpropertyy ,name='list_property'),
-    url(r'^list/$', listpropetrty ,name='listproperty'),
+    url(r'^list/$', listpropetrty ,name='listproperrty'),
     url(r'^listrequest/$', listingrequest ,name='listrequest'),
     url(r'^agent/profile/$', agentprofile),
     url(r'^register/',register,name='register'),

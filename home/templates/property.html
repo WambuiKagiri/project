@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <!DOCTYPE html>
-<html>
+<html id='test'>
 
 <head>
 
@@ -9,10 +9,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ propety.property_title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/png" href="{%static 'MySihomete/images/icon.png'%}">
+    <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
     <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
+    <script src="{%static 'home/js/index.js'%}"></script>
+    <script src="{%static 'home/js/main.js'%}"></script>
+<script src="{%static 'home/js/pic.js'%}"></script>
+<script src="{%static 'home/js/jquery.js'%}"></script>
 </head>
 <body>
     <div class="supercontainer">
@@ -44,13 +47,13 @@
         <header>
             {% include "includes/header.html" %} 
         </header>
-
+<!-- 
         <div class="jumbotron" style="background-image:url({%static 'home/images/back.jpg'%});">
             <div class="container text-center">
                 
                 {% include "includes/search.html" %}
             </div>
-        </div>
+        </div> -->
         {% for message in messages %} 
         <div class="alert alert-success" role="alert">
                 {{ message }}
@@ -68,12 +71,20 @@
                         <!--Pics -->
                         <div class="propertyp">
                              
-                            <div class="propertypic"> 
+                            <div class="propertypic" id='main'> 
                                                                
                                 <img src ="{{ propety.property_picture.url }}" alt=""> 
                             </div>
   
+<script>
+$(".thumb").on("click",(e)=>{
+    let clicked = e.target.id;
+    let link = $("#main").attr("src");
+    // all images must be of one format [png | jpg | gif]
+    $("#main").attr("src",clicked);
+})
 
+</script>
 
 <div class="container">
         <div class='row'>
@@ -82,18 +93,25 @@
               <div class="carousel-inner">
                 <div class="item  active">
                   <div class="row">
+                      <style>
+                              #thumbs >img {
+       
+    }
+                      </style>
+                <div id="thumbs">
                     <div class="col-md-3">
-                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                      <a class="thumbnail"><img alt="" id="one" class="thumb" src="{{ propety.property_picture.url }}"></a>
                     </div>          
                     <div class="col-md-3">
-                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                      <a class="thumbnail"><img alt="" id="two" class="thumb" src="{{ propety.property_picture.url }}"></a>
                     </div>
                     <div class="col-md-3">
-                      <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                      <a class="thumbnail"><img alt="" id="three" class="thumb" src="{{ propety.property_picture.url }}"></a>
                     </div> 
                     <div class="col-md-3">
-                        <a class="thumbnail" href="#"><img alt="" src="{{ propety.property_picture.url }}"></a>
-                    </div>        
+                        <a class="thumbnail"><img alt="" src="{{ propety.property_picture.url }}"></a>
+                    </div> 
+                </div>       
                   </div>
                 </div>
                 <div class="item">
@@ -112,19 +130,6 @@
                     </div>      
                   </div>
                 </div>
-                <!-- <div class="item">
-                  <div class="row">
-                    <div class="col-md-4">
-                      <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                    </div>          
-                    <div class="col-md-4">
-                      <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                    </div>
-                    <div class="col-md-4">
-                      <a class="thumbnail" href="#"><img alt="" src="http://placehold.it/150x150"></a>
-                    </div>      
-                  </div>
-                </div> -->
               </div>
               <a data-slide="prev" href="#media" class="left carousel-control">‹</a>
               <a data-slide="next" href="#media" class="right carousel-control">›</a>
@@ -316,7 +321,7 @@
                             <div class="form-group">
                                 <label for="message" class="col-sm-2 control-label"> Date</label>
                                 <div class='col-sm-10'>
-                                    <input type='date' class="form-control" id="date" name="date" min="2019-03-14">
+                                    <input type='date' class="form-control" id="date" name="date" min="2019-03-20" max="2019-04-04">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -355,7 +360,8 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="property_title">Take a virtual tour of this property</div>
-                    <iframe style="max-width: 100%;" width="940" height="480" frameborder="0" allowfullscreen src="https://players.cupix.com/embed.html?key=TOuDocSW"></iframe>
+   
+                    <iframe style="max-width: 100%;" width="940" height="480" frameborder="0" allowfullscreen src="{{ propety.tour }}"></iframe>
                        
                 </div>
                 <div class="col-md-4">
@@ -383,6 +389,6 @@
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-<script src="{%static 'home/js/main.js'%}"></script>
+
 </body>
 </html>

@@ -50,7 +50,6 @@
             <th>Date</th>
             <th>Name</th>
             <th>Email</th>
-            <th>Status</th>
             <th></th>
         </tr>
         {% for booked_viewings in books %}
@@ -58,8 +57,7 @@
             <td> {{ booked_viewings.propertytitle }}</td>
             <td>{{ booked_viewings.date }}</td>
             <td>{{ booked_viewings.name }}</td>
-            <td>{{ booked_viewings.email}}</td>   
-            <td style="color: green;">Pending</td>
+            <td>{{ booked_viewings.email}}</td>          
             <td><input type="checkbox" name="name2" />&nbsp;</td>
         </tr>
         {% endfor %}
