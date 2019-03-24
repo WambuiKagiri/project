@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'home/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/agent.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{%static 'home/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body class="home">
+  <div class="container-fluid display-table">
+    
+  </div>
+  <div class="row">
+      {% for p in propt %}
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="    position: absolute;
+        margin-left: 20%;
+        margin-top: 4%;    overflow: auto;
+    max-height: 85vh;">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1 class="panel-title pull-left" style="font-size:30px;">Edit Property - {{ p.propertytitle }} at {{ p.location}}</h1>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="panel-title pull-left">Property Details</h3>
+                        <br><br>
+                        <form class="form-horizontal" method="post" action="/agent-edit-property/{{p.propertytitle}}/" id="list_form">{% csrf_token %}
+                            <label>Property Title</label>
+                            <input type="text" class="form-control" id="" name="propertytitle" placeholder="Property Title" value="{{ p.propertytitle }}">
+                            <label>Category</label>
+                            <select id="profile_date_month" name="propertytype" class="form-control" >
+                                <option value="" selected="selected">Residential</option>
+                                <option value="">Commercial</option>
+                            </select>
+                            <label>For Rent/Sale</label>
+                            <select id="profile_date_month" name="propertytype"  class="form-control">
+                                <option  selected="selected">Rent</option>
+                                <option >Sale</option>
+                               
+                            </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                        <label>Location</label>
+                                        <input type="text" class="form-control" value="{{ p.location }}" name="location" placeholder="Location" >
+                                </div>
+                                <div class="col-md-6">
+                                        <label>Price</label>
+                                        <input type="number" class="form-control" value="{{ p.price }}" name="price" placeholder="Price" >
+                                </div>
+                            </div>
+
+                            <script>
+                                var input = document.getElementById('filesToUpload');
+var list = document.getElementById('fileList');
+
+//empty list for now...
+while (list.hasChildNodes()) {
+	list.removeChild(ul.firstChild);
+}
+
+//for every file...
+for (var x = 0; x < input.files.length; x++) {
+	//add to list
+	var li = document.createElement('li');
+	li.innerHTML = 'File ' + (x + 1) + ':  ' + input.files[x].name;
+	list.append(li);
+}
+
+function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah')
+                    .attr('src', e.target.result)
+                    .width(150)
+                    .height(200);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+                            </script>
+                        
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="panel-title pull-left">Media</h3>
+                        <br><br>
+                        <div align="center">
+                            <div class="col-lg-12 col-md-12">
+                                    <img id="blah" src="https://dummyimage.com/640x360/fff/aaa" name="property_picture" alt="your image"  />
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <button class="btn btn-primary"><input name="property_picture" id="filesToUpload" type="file" multiple="" onchange="readURL(this);" /><i class="fa fa-upload" aria-hidden="true"></i> Upload new media</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        
+                        
+                            <label>Description</label>
+                            <textarea class="form-control" rows="4" placeholder="" name="description">{{ p.description }}</textarea>
+                        
+                        <br><br>
+                        
+                            <label>Bathrooms</label>
+                           <input type="number" name="bathrooms" value="{{ p.bathrooms }}">
+                           <label>Bedrooms</label>
+                           <input type="number" name="bedrooms" value="{{ p.bedrooms }}">
+                           <label>Patio</label>
+                           <input type="number" name="patio" value="{{ p.patio }}">
+                           <label>Area</label>
+                           <input type="number" name="area" value="{{ p.area }}">
+                           <br><br>
+                           <label>Garage</label>
+                           <input type="number" name="garage" value="{{ p.garage }}">
+                        
+                    </div>
+
+                </div>
+                <hr>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <button class="btn btn-default"><i class="fa fa-fw fa-times" aria-hidden="true"></i> Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-check"  aria-hidden="true"></i> Update Property</button>
+                    </div>
+                </div>
+            </div>
+    {% endfor %}
+</form>
+  </div>
+  <script>
+      $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+  </script>
+  <style>
+      
+.brand_network {
+    color: #9D9D9D;
+    float: left;
+    position: absolute;
+    left: 70px;
+    top: 30px;
+    font-size: smaller;
+}
+
+.post-content {
+    margin-left:58px;
+}
+
+.badge-important {
+    margin-top: 3px;
+    margin-left: 25px;
+    position: absolute;
+}
+img{
+  max-width:80%;
+}
+input[type=file]{
+padding:10px;
+background:#2d2d2d;}
+body {
+    background-color: #e8e8e8;
+}
+  </style>
+</body>
+</html>

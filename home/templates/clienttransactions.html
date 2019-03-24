@@ -11,7 +11,8 @@
     <link rel="stylesheet" type="text/css" media="screen" href="{%static 'home/styles/main.css'%}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css">
-    
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -43,8 +44,8 @@
                     <span class="caret"></span></button></a>
                     <ul class="dropdown-menu">
                         <li><a href="/client/profile/">Profile</a></li>
-                        <li><a href="#">Notifications</a></li>
                         <li><a href="/myproperties/">My Properties</a></li>
+                        <li><a href="/client-bookings/">My Viewings</a></li>
                     </ul>
                 </div>
             </div>
@@ -57,6 +58,7 @@
                 </div>
             {% endif %}
 
+
         <!-- header -->
         <header>
             {% include "includes/header.html" %} 
@@ -68,11 +70,11 @@
                         <a href="/myproperties/"><button style="    margin-left: 9%;
                             margin-top: 5%;
                             position: absolute;">Your Properties</button></a>  <br> <br>
-                        <button style="margin-left: 9%; margin-top:9%; position:absolute;">  Your Bookings</button> 
+                        <a href="/client-bookings/"><button style="margin-left: 9%; margin-top:9%; position:absolute;">  Your Bookings</button> </a> 
                     </div>
             <div class="col-md-8" style="    margin-left: 18%;position: absolute;">
                 <div>
-                    <h5> <b>Booked Viewings for:{{ request.user.username}} </b> </h5>
+                    <h5> <b>Transactions for:{{ request.user.username}} </b> </h5>
                     <div>
                         
     <div class="container" style="    margin-left: 47%;">
@@ -88,12 +90,12 @@
                     </div>
                     <br>
                 </div>
-                {% for b in props %}
+                {% for t in trs %}
                 <div class="well col-sm-12">
-                 <p> <b>Property Title</b> </p>   <p>{{b.propertytitle}}</p>
-                  <p> <b> Date</b></p><p>{{b.date}}</p>
-                   <p> <b>Time</b> </p> <p>{{b.time}}</p>
-                   <p> <b>Booking Status:</b> </p> <p>Upcoming</p>
+                 <p> <b>Transaction ID :</b> </p>   <p>{{t.transaction_id}}</p>
+                  <p> <b> Amount:</b></p> USD: <p>{{t.amount}}$</p>
+                   <p> <b>Date:</b> </p> <p>{{t.date}}</p>
+                   <p> <b>Transaction Status:</b> </p> <p>{{t.transaction_status}}</p>
                    <!-- <div class="col-md-4">
                         <p>Paid Via:</p>
                    </div> -->
@@ -102,6 +104,6 @@
                 {% endfor %}
             </div>
         </div>
-    </div>
+</div>
 </body>
 </html>

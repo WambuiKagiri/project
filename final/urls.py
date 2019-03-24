@@ -20,7 +20,7 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, re_path
 from django.conf.urls import url,include
-from django.contrib.auth import views
+# from django.contrib.auth import views
 from django.contrib.auth import views as auth_views
 from accounts.views import (login,register,reset_view,refer_view,success)
 from home.views import dashboard,home,subscribe,agentprofile, search, propertycontact,listpropertyy, paypage, listpropetrty, messagestatus, clientbookings,agenteditproperty
@@ -28,10 +28,11 @@ from home.views import dashboard,home,subscribe,agentprofile, search, propertyco
 from django.urls import path
 from django.views.generic import TemplateView
 from home.views import listingrequest
-from home.views import dashboard,home,subscribe,message,listpropertyy,propertypage, booking
-from home.views import agentprofile,clientprofile,clientproperties,agentlistrequests
-from home import views
+from home.views import dashboard,home,subscribe,message,listpropertyy,propertypage, booking, AboutPageView
+from home.views import agentprofile,clientprofile,clientproperties,agentlistrequests, clienteditproperty, adminhome, adminproperties,clienttransactions
 from payments.views import process_payment, payment_done, payment_canceled
+
+from home import views
 
 urlpatterns = [
     url('admin/', admin.site.urls),
@@ -55,7 +56,7 @@ urlpatterns = [
 	url(r'^property/(?P<propertytitle>[-\w]+)/(?P<pk>\d+)/$', propertypage, name='property'),
 	url(r'^propertys/(?P<propertytitle>[-\w]+)/(?P<pk>\d+)/$', booking , name='booking'),
 	url(r'^agent/profile/$', agentprofile),
-	url(r'^client/profile/$', clientprofile),
+	url(r'^client/profile/$', clientprofile,name=clientprofile),
 	url(r'^myproperties/$', clientproperties),
 	# url(r'^/message/', TemplateView.as_view(template_name='message.html'))
 	url(r'^register/',register,name='register'),
@@ -67,9 +68,12 @@ urlpatterns = [
     url(r'^register/',register,name='register'),
     url(r'^subscribe/',subscribe,name='subscribe'),
     url(r'^client-bookings/',clientbookings ,name='clientbookings'),
+    url(r'^client-transactions/',clienttransactions ,name='clienttransactions'),
+
     url(r'^success/',success,name='success'),
     url(r'^updatemessage/',messagestatus,name='messagestatus'),
     url(r'^agent-edit-property/(?P<propertytitle>[-\w]+)/$',agenteditproperty,name='agentedit'),
+    url(r'^client-edit-property/(?P<propertytitle>[-\w]+)/$',clienteditproperty,name='clientedit'),
     url(r'^reset/',reset_view,name='reset'),
     url(r'^refer/',refer_view,name='refer'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',include('accounts.urls')),
@@ -81,6 +85,11 @@ urlpatterns = [
     url(r'^process-payment/',process_payment,name='payment'),
     url(r'^payment-done/', payment_done, name='payment_done'),
     url(r'^payment-canceled/', payment_canceled, name='payment_canceled'),
+
+
+    url(r'^administrator/', adminhome ,name='adminhome'),
+    url(r'^admin-properties/', adminproperties ,name='adminproperties'),
+
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

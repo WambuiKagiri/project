@@ -23,9 +23,9 @@
         {% include 'includes/agenthead.html' %}
     </div>
 
-    <div class="container" style="    margin-left: 18%;
-    width: 80%;
-    margin-top: -30%;
+    <div class="container" style="margin-left: 4%;
+    width: 100%;
+    margin-top: 4%;
     position: absolute;">       
    <style>
        table {
@@ -65,8 +65,10 @@
                  </tr>
                </thead>
                <tbody>
-                       {% for s in lisstt %}
+                      
                        <a href="/">
+                        {% for s in lisstt %}
+                        
                   <tr>
                        <td>{{ s.request_id }}</td>
                        <td>{{ s.name }}</td>
@@ -75,8 +77,9 @@
                        <td style="color: green;">{{ contact_on_property.status }}</td>
                        <td><input type="checkbox" name="name2" />&nbsp;</td>
                  </tr>
-               </a>
                  {% endfor %}
+               </a>
+                
                </tbody>
              </table>
         </div>

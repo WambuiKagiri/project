@@ -65,14 +65,18 @@
 
 
         <div class="row ">
-            <div class="col-md-4 ">
-                <p>Transaction History</p>
-                <p>Bookings Made</p>
+            <div class="col-md-4" style="">
+                <br><br><br>
+                <a href="/client-transactions/"><button style="    margin-left: 9%;
+                    margin-top: 5%;
+                    position: absolute;">Your Transactions</button></a>  <br> <br>
+                <button style="margin-left: 9%; margin-top:9%; position:absolute;">  Your Bookings</button> 
             </div>
                 <h5>Properties you have listed</h5>  
-                    <div class="col-md-8" style="margin-left: 20%;   overflow: auto;
-                    max-height: 85vh;">
+                    <div class="col-md-8" style="margin-left: 20%;overflow: auto;
+                    max-height: 85vh;margin-top: -5%;">
                             {% for property in props %}
+                            <p>Property ID: {{ property.property_id }}</p>
                         
                             <div class="well col-sm-12" style="color: black;object-fit: contain;">
                                 <div class="property-image">
@@ -113,7 +117,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a href="/agent-edit-property/{{property.propertytitle}}/">
+                                <a href="/client-edit-property/{{property.propertytitle}}/">
                                 <button type="button" class="btn btn-primary" style="margin-left: 45%;
                                 margin-top: 2%;">Edit</button></a>
         
@@ -124,15 +128,15 @@
         
                          <div class="pagination">
                             <span class="step-links">
-                                {% if propt.has_previous %}
-                                    <a href="?page={{ propt.previous_page_number }}">Previous</a>
+                                {% if props.has_previous %}
+                                    <a href="?page={{ props.previous_page_number }}">Previous</a>
                                 {% endif %}  
                             
                                 <span class="current">
-                                    Page {{ propt.number }} of {{ propt.paginator.num_pages }}
+                                    Page {{ props.number }} of {{ props.paginator.num_pages }}
                                 </span>
-                                {% if propt.has_next %}  
-                                    <a href="?page={{ propt.next_page_number }}">Next </a>
+                                {% if props.has_next %}  
+                                    <a href="?page={{ props.next_page_number }}">Next </a>
                                 {% endif %}
                             </span>
                         </div>

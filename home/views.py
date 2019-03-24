@@ -14,7 +14,9 @@ from django.contrib.auth import login as clogin
 from django.contrib.auth import authenticate
 from django.utils.safestring import mark_safe
 from django.shortcuts import render_to_response
+from django.utils import timezone
 from django.template import RequestContext
+from django_tables2 import RequestConfig
 from django.contrib.auth.decorators import user_passes_test
 from ajax_search.forms import SearchForm
 from django.core.mail import send_mail
@@ -26,6 +28,9 @@ import json
 import re
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.generic.edit import FormView
+from pygal.style import DarkStyle
+
+from .charts import UserChart, PropertyChart
 from django.db.models import Q
 from django.contrib.auth import (
 authenticate,
@@ -38,7 +43,7 @@ user = get_user_model()
 #imported forms
 from .forms import subscribe_form
 from .forms import list_form
-from .forms import customer_form
+from .forms import customer_form,clientform
 from .forms import booking_form
 from .forms import searchform,listrequestform
 
@@ -49,7 +54,7 @@ from .models import contact_on_property
 from .models import booked_viewings
 from .models import propety,User,listrequest, paypal_payments
 
-
+from .tables import UsersTable
 
 @csrf_protect
 @ensure_csrf_cookie
@@ -275,21 +280,22 @@ def listpropetrty(request):
 	form = list_form(request.POST)
 	if request.method == 'POST':	
 		if form.is_valid():
-			title = form.cleaned_data.get('propertytitle')
-			tyype = form.cleaned_data.get('propertytype')
-			loc = form.cleaned_data.get('location')
-			pri = form.cleaned_data.get('price')
-			purpose = form.cleaned_data.get('rentbuy')
-			beds = form.cleaned_data.get('bedrooms')
-			baths = form.cleaned_data.get('bathrooms')
-			ar = form.cleaned_data.get('area')
-			pat = form.cleaned_data.get('patio')
-			gar = form.cleaned_data.get('garage')
-			desc = form.cleaned_data.get('description')
+			# title = form.cleaned_data.get('propertytitle')
+			# tyype = form.cleaned_data.get('propertytype')
+			# loc = form.cleaned_data.get('location')
+			# pri = form.cleaned_data.get('price')
+			# purpose = form.cleaned_data.get('rentbuy')
+			# beds = form.cleaned_data.get('bedrooms')
+			# baths = form.cleaned_data.get('bathrooms')
+			# ar = form.cleaned_data.get('area')
+			# pat = form.cleaned_data.get('patio')
+			# gar = form.cleaned_data.get('garage')
+			# desc = form.cleaned_data.get('description')
 			
-			p = propety.objects.create(propertytitle=title,propertytype=tyype,location=loc,price=pri,rentbuy=purpose,bedrooms=beds,bathrooms=baths,area=ar,patio=pat,garage=gar,description=desc)
+			form.save()
+			# p = propety.objects.create(propertytitle=title,propertytype=tyype,location=loc,price=pri,rentbuy=purpose,bedrooms=beds,bathrooms=baths,area=ar,patio=pat,garage=gar,description=desc)
 
-			print(p)
+			
 			# propety.save()	
 			messages.success(request, "Property added successfully")			
 			return render(request, 'listToproperty.html',{'form':form})
@@ -333,19 +339,33 @@ def propertycontact(request):
 
 @csrf_protect
 @ensure_csrf_cookie
-@login_required(login_url='/accounts/login/')
-# @user_passes_test(lambda u: u.groups.filter(name='Client').exists())
+# @login_required(login_url='/accounts/login/')
+@user_passes_test(lambda u: u.groups.filter(name='Client').exists())
 def listpropertyy(request,**kwargs):
-	form = list_form(request.POST,)
+	form = list_form(request.POST or None, request.FILES or None)
 	if request.method == 'POST':	
 		if form.is_valid():
-			form.save()	
+			# title = form.cleaned_data.get('propertytitle')
+			# tyype = form.cleaned_data.get('propertytype')
+			# loc = form.cleaned_data.get('location')
+			# pri = form.cleaned_data.get('price')
+			# purpose = form.cleaned_data.get('rentbuy')
+			# beds = form.cleaned_data.get('bedrooms')
+			# baths = form.cleaned_data.get('bathrooms')
+			# ar = form.cleaned_data.get('area')
+			# pat = form.cleaned_data.get('patio')
+			# gar = form.cleaned_data.get('garage')
+			# desc = form.cleaned_data.get('description')
+			
+			# p = propety.objects.create(propertytitle=title,propertytype=tyype,location=loc,price=pri,rentbuy=purpose,bedrooms=beds,bathrooms=baths,area=ar,patio=pat,garage=gar,description=desc)
+			# print(p)
+			form.save()
 			messages.success(request, "Property added successfully")	
 			return render(request, 'payments/process_payment.html')
 					
 			
 		else:
-			print(form)		
+			messages.success(request, "Property not added")	
 			return render(request, 'ListProperty.html',{'form':form})
 
 	else:
@@ -359,6 +379,16 @@ def listpropertyy(request,**kwargs):
 def clientproperties(request):
 	props = propety.objects.filter(lister= request.user)
 	trans = paypal_payments.objects.filter(client = request.user)
+
+	paginator = Paginator(props,4)
+	
+	page = request.GET.get('page')
+	try:
+		props = paginator.page(page)
+	except PageNotAnInteger:
+		props = paginator.page(1)
+	except EmptyPage:
+		props = paginator.page(paginator.num_pages)
 	return render(request,'myproperties.html',{'props':props})
 
 def paypage(request):
@@ -391,6 +421,23 @@ def agenteditproperty(request,propertytitle):
 	else:
 		return render(request,'agenteditproperty.html',{'propt':propt,'form':form})
 
+@ensure_csrf_cookie
+@csrf_protect
+def clienteditproperty(request,propertytitle):
+	propt = propety.objects.all().filter(propertytitle=propertytitle)
+	form = list_form(request.POST)
+	if request.method == 'POST':
+		if form.is_valid():
+			form.save()
+			messages.success("Property updated successfully")
+			return render(request,'myproperties.html',{'form':form})
+
+		else:
+			print("Form si valid")
+			return render(request,'clienteditproperty.html',{'form':form,'propt':propt})
+
+	else:
+		return render(request,'clienteditproperty.html',{'propt':propt,'form':form})
 
 
 	
@@ -403,6 +450,25 @@ def listingrequest(request):
 	if request.method == 'POST':
 		if form.is_valid():
 			form.save()
+			p = form.cleaned_data.get('location')
+			print (p)
+			try:
+				s = User.objects.filter(location__iexact=p).first()
+				
+				print(s.email)
+			except ObjectDoesNotExist:
+				pass
+				#s = User.objects.filter(location__exact='').only('email').first()
+			
+			current_site = get_current_site(request)
+			message = render_to_string('clientlistemail.html',{
+			'user':user,
+			'domain':current_site.domain,
+			})
+			mail_subject = 'Property Listing Request'
+			to_email = s.email
+			email = EmailMessage(mail_subject,message,to=[to_email])
+			email.send()
 			messages.success(request, "Your message has been sent. Our agent will contact you shortly")
 			return render(request,'ListProperty.html',{'form':form})
 		
@@ -413,3 +479,71 @@ def listingrequest(request):
 		return render(request,'ListProperty.html',{'form':form})
 
 
+# def adminhome(request,self,**kwargs):
+# 	context = super(adminhome, self).get_context_data(**kwargs)
+
+# 	user_chart = UserChart(
+# 		height=400,
+# 		width=200,
+# 		explicit_size=True,
+# 		style=DarkStyle
+# 	)
+# 	context['user_chart'] = user_chart.generate()
+# 	return render(request, 'adminhome.html',{'user_chart':user_chart})
+
+# class AdminView(TemplateView):
+# 	template_name = 'adminhome.html'
+	
+# 	def get_context_data(self, **kwargs):
+# 		context = super(AdminView, self).get_context_data(**kwargs)
+		
+# 		property_chart = PropertyChart(height=400,width=400,explicit_size=True,style=DarkStyle)
+
+#         # Instantiate our chart. We'll keep the size/style/etc.
+#         # config here in the view instead of `charts.py`.
+#         # user_chart = UserChart(
+#             # height=400,
+#             # width=400,
+#             # explicit_size=True,
+# 			# style=DarkStyle
+			
+# 			# )
+			
+
+
+#         # Call the `.generate()` method on our chart object
+#         # and pass it to template context.
+#         # context['user_chart'] = user_chart.generate()
+# 		context['property_chart'] = property_chart.generate()
+# 		return context
+
+def adminhome(request):
+	table = UsersTable(User.objects.all())
+	RequestConfig(request).configure(table)
+	users = User.objects.all()
+	
+	return render(request, 'adminhome.html', {'table': table,'users':users})
+
+def adminproperties(request):
+	ps = propety.objects.all()
+	return render(request,'adminproperties.html',{'ps':ps})
+
+def clienttransactions(request):
+	now = timezone.now()
+	trs = paypal_payments.objects.filter(client = request.user)
+	return render(request,'clienttransactions.html',{'trs':trs,'now':now})
+
+# def transactionreport(request):
+# 	form = 
+	
+# 	paypal_payments.objects.filter(client=request.user,date__range=)
+
+# @login_required
+# def clientprofile_edit(request):
+# 	form = clientform(request.POST or None)
+# 	if request.method == 'POST' and form.is_valid():
+# 		form.save()
+# 		return render(request,'clientprofile.html',{'form':form})
+
+# 	else:
+# 		return render(request,'clientprofile.html',{'form':form})

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts',
     'payments',
     'paypal.standard.ipn', 
+    'django_tables2',
 ]
 
 MIDDLEWARE = [

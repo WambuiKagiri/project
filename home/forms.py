@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 
 from .models import subscriber
 from .models import listings_waiting_list
-from .models import propety,listrequest
+from .models import propety,listrequest,User
 
 
 class subscribe_form(forms.ModelForm):
@@ -17,7 +17,7 @@ class subscribe_form(forms.ModelForm):
 class list_form(forms.ModelForm):
 	class Meta:
 		model = propety
-		fields = '__all__'
+		fields = ['propertytitle','propertytype','location','price','rentbuy','bedrooms', 'bathrooms','area','patio','garage','description']
 
 from .models import contact_on_property
 
@@ -57,3 +57,8 @@ class listrequestform(forms.ModelForm):
 	class Meta:
 		model = listrequest
 		fields = '__all__'
+
+class clientform(forms.ModelForm):
+	class Meta:
+		model = User
+		fields = ['username','first_name','last_name','email']

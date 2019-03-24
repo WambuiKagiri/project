@@ -50,6 +50,7 @@ class listrequest(models.Model):
 	name = models.CharField(max_length=100)
 	email = models.CharField(max_length=200)
 	mobile_no = models.CharField(max_length=10)
+	location = models.CharField(max_length=50,blank=True, null=True)
 
 
 class booked_viewings(models.Model):
@@ -109,5 +110,5 @@ class paypal_payments(models.Model):
 	date = models.DateField(auto_now_add=True)
 	amount = models.FloatField(blank=True)
 	transaction_status = models.CharField(max_length=800,blank=True)
-	transaction_id = models.CharField(max_length=255,blank=True,unique=True)
+	transaction_id = models.CharField(max_length=255,blank=True)
 

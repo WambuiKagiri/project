@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+<body>
+        <header>           
+            {% include "includes/admin.html" %} 
+        </header>
+        <div>
+            
+       <table class="table table-striped">
+          <caption>Property requests</caption>
+          
+              <thead>
+                <tr>
+                  <th>  Userame</th>
+                  <th>Group</th>
+                  <th>Email</th>
+                  <th>First name</th>
+                  <th>last name</th>
+                  <th> </th>
+                </tr>
+              </thead>
+              <tbody>
+                      {% for u in ps %}
+                      <a href="/">
+                 <tr>
+                      <td>{{ u.location }}</td>
+                      <td>{{ u.propertytitle }}</td>
+                      <td>{{ u.propertytype }}</td>
+                      <td>{{ u.price }}</td>
+                      <td>{{ u.rentbuy }}</td>  
+                      <td><input type="checkbox" name="name2" />&nbsp;</td>
+                </tr>
+              </a>
+                {% endfor %}
+              </tbody>
+            </table>
+      </div>
+    </div>
+
+
+                               
+   <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 70% !important;
+      margin-left: 18% !important;
+      margin-top: -40% !important;
+      position: absolute;
+    }
+            
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+    
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+     
+ 
+    
+   <style>
+    body { padding-top:20px; }
+ .panel-body .btn:not(.btn-block) { width:120px;margin-bottom:10px; }
+    </style> 
+        </div>
+</body>
+</html>
+
+
